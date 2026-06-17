@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>StudyPANO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        html,
+        body {
+            background-color: #0f172a;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0px;
+            padding: 0px;
+            max-width: 100%;
+        }
+
+        body .focus-mode {
+            background-color: #0f172a;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .panel::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            transition: 0.3s;
+        }
+
+        .panel.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            transition: 0.3s;
+        }
+
+        .panel.active {
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            color: white;
+            transform: translateY(-10px);
+            /* move upward */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .panel:hover::after {
+            width: 100%;
+        }
+
+        .panel.active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -12%;
+            width: 90%;
+            height: 100%;
+            background: #ffffff2e;
+            transform: skewX(-50deg);
+            animation: shine 4s linear infinite;
+
+        }
+
+        @keyframes shine {
+            0% {
+                left: -130%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        .top-panels {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            background: #333;
+            width: 100%;
+            height: 80px;
+            justify-content: center;
+            position: fixed;
+            top: -5px;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+            margin: 0px;
+        }
+
+        .panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            width: 100px;
+            height: 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px;
+        }
+
+        i {
+            position: relative;
+            right: 5px;
+            font-size: 15px;
+        }
+
+        /* Hover effect */
+        .panel:hover {
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            color: white;
+            transform: translateY(-10px);
+            /* move upward */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .contimg {
+            position: relative;
+            top: 70px;
+            width: 45vh;
+            border: none;
+            border-radius: 18px;
+            text-align: center;
+
+        }
+
+        .pic {
+            display: flex;
+            justify-content: center;
+            opacity: 5;
+            transition: 1s ease;
+            width: 100%;
+        }
+
+        #txt h1 {
+            color: white;
+            position: relative;
+            top: 55px;
+            text-align: center;
+        }
+
+        #txt {
+            color: white;
+            font-size: larger;
+            font-family: 'Times New Roman', Times, serif;
+            width: 80%;
+        }
+
+        .hhd {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            bottom: 20px;
+        }
+
+        button {
+            color: white;
+            background: linear-gradient(to right top, rgb(167, 0, 0), rgb(0, 0, 158));
+            border: none;
+            width: 30%;
+            font-size: 20px;
+            height: 50px;
+            border-radius: 20px;
+            position: relative;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            filter: brightness(1.2);
+        }
+
+        button:hover {
+            width: 32%;
+            height: 55px;
+            border: 1px solid white;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -12%;
+            width: 60%;
+            height: 100%;
+            background: #ffffff2e;
+            transform: skewX(-45deg);
+            animation: shine 4s linear infinite;
+
+        }
+
+        @keyframes shine {
+            0% {
+                left: -130%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        .b1 {
+            bottom: 0px;
+        }
+
+        .b2 {
+            bottom: 0px;
+        }
+
+        .b3 {
+            bottom: 0px;
+        }
+
+        .b4 {
+            position: fixed;
+            bottom: 130px;
+            right: 7%;
+            width: 60px;
+            height: 60px;
+            z-index: 9999;
+        }
+
+        .b4:hover {
+            width: 62px;
+            height: 62px;
+            border: 1px solid white;
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+            z-index: 10000;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #64748b;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .footer {
+            width: 100%;
+            background: #020617;
+            color: whitesmoke;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ccd {
+            position: relative;
+            background: none;
+            font-size: large;
+            top: -20px;
+            padding-left: 100px;
+
+        }
+
+        .conect {
+            font-size: 15px;
+            text-align: left;
+            color: blue;
+        }
+
+        .ct {
+            text-align: right;
+        }
+
+        .arr {
+            position: relative;
+            top: -20px;
+            z-index: 10;
+        }
+
+        .marqee-scroll {
+            background: #333;
+            color: white;
+            font-size: 20px;
+            height: 29px;
+            line-height: 22px;
+            font-weight: bold;
+            position: relative;
+            left: 0;
+            top: 30px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .qs {
+            font-size: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            border: none;
+            border-radius: 10px;
+            right: 7%;
+            width: 60px;
+            height: 60px;
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+
+        }
+
+        .qs:hover {
+            width: 200px;
+            height: 62px;
+
+        }
+
+        .qs:hover::after {
+            content: "Ask Question!";
+            font-size: 20px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .menue {
+            color: white;
+            font-weight: 900;
+            font-size: 30px;
+            display: grid;
+            flex-wrap: wrap;
+            gap: -10px;
+        }
+
+        .sett {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: none;
+            position: relative;
+            top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            transition: all 2s ease;
+            cursor: pointer;
+            left: 10px;
+        }
+
+        .fixed {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            z-index: inherit;
+        }
+
+        .rotate {
+            transform: rotate(-360deg);
+        }
+
+        .settingctn {
+            position: fixed;
+            inset: 0;
+            transform: translateY(-185px);
+            transform: translateX(100%);
+            background: #231f1f;
+            z-index: 10000000;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: hidden;
+            transition: all 0.8s ease-in-out;
+            background: fixed;
+            opacity: 1;
+        }
+
+        .settingmenue {
+            position: fixed;
+            top: 0px;
+            transform: translateY(0px);
+            width: 100%;
+            height: 100%;
+            right: 0px;
+            background: #121212;
+            z-index: 10000000;
+            color: #e0e0e0;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            overflow-x: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .bg {
+            pointer-events: none;
+        }
+
+        .settingmenue::-webkit-scrollbar {
+            width: 8px;
+            z-index: 100000;
+        }
+
+        .settingmenue::-webkit-scrollbar-track {
+            background: #bbb;
+        }
+
+        .settingmenue::-webkit-scrollbar-thumb {
+            background: #eee;
+        }
+
+        .settingmenue::-webkit-scrollbar-thumb:hover {
+            background: #fff;
+        }
+
+        .settingctn::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        .settingctn::-webkit-scrollbar-track {
+            background: none;
+        }
+
+        .settingctn::-webkit-scrollbar-thumb {
+            background: none;
+        }
+
+        .settingctn::-webkit-scrollbar-thumb:hover {
+            background: none;
+        }
+
+        .show {
+            transform: translateX(0px);
+            opacity: 1;
+        }
+
+        .head {
+            width: 100%;
+            height: 80px;
+            text-align: center;
+            box-shadow: 0 1px white;
+            position: fixed;
+            top: 0px;
+            background-color: #121212;
+            overflow-y: hidden;
+        }
+
+        .profile {
+            width: 355px;
+            height: 400px;
+            background: #151515;
+            font-size: larger;
+            box-shadow: 0 0 0px;
+        }
+
+        #profilephoto {
+            width: 150px;
+            height: 150px;
+            background: #151515;
+            border: 1px solid white;
+            border-radius: 50%;
+            padding: 1px white;
+            margin: 1px white;
+            box-shadow: 0 0 10px white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: #bbb;
+            transition: all 0.3s ease-in-out;
+        }
+
+
+        #photostr {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #photostr img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            position: absolute;
+            top: 0px;
+            z-index: 10000;
+        }
+
+        .pro {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+        }
+
+        .cl {
+            color: #bbb;
+            background: none;
+            border: none;
+            font-size: 35px;
+            position: absolute;
+            left: 40px;
+            top: 28px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 1000000;
+        }
+
+        .cl::before {
+            width: 0px;
+            animation: none;
+        }
+
+        .cl:hover {
+            width: 20px;
+            height: 20px;
+            border: none;
+            color: #fff;
+        }
+
+        #saved {
+            width: 100px;
+            background: #e0e0e0;
+            color: black;
+            position: relative;
+            top: -80px;
+
+        }
+
+        #saved:hover {
+            width: 110px;
+            box-shadow: 0 0 10px rgb(168, 168, 168);
+        }
+
+        #saved.over {
+            background: #757575;
+            animation: none !important;
+        }
+
+        #saved.over:hover {
+            width: 100px;
+            height: 50px;
+            border: none;
+            box-shadow: none;
+        }
+
+        #saved.over::before {
+            animation: none !important;
+            width: 0px;
+        }
+
+        #sighout {
+            width: 100px;
+            background: #e0e0e0;
+            color: black;
+            position: relative;
+            top: -80px;
+            animation: shine 0s linear infinite;
+        }
+
+        #sighout:hover {
+            width: 110px;
+            box-shadow: 0 0 10px rgb(168, 168, 168);
+        }
+
+        #sighout.over {
+            background: #757575;
+        }
+
+        #sighout.over:hover {
+            width: 100px;
+            height: 50px;
+            border: none;
+            box-shadow: none;
+        }
+
+        #Name {
+            display: none;
+            border: none;
+            background: #1e293b;
+            text-align: left;
+            position: absolute;
+            top: 0px;
+            right: 1px;
+            width: 200px;
+            height: 33px;
+            padding-right: 60px;
+            color: white;
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
+
+        #Name:hover {
+            border: #fff;
+        }
+
+        #Name::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        #Name::-webkit-scrollbar-track {
+            background: none;
+        }
+
+        #Name::-webkit-scrollbar-thumb {
+            background: none;
+        }
+
+        #Name::-webkit-scrollbar-thumb:hover {
+            background: none;
+        }
+
+        #pno {
+            display: none;
+            border: none;
+            background: #1e293b;
+            text-align: left;
+            position: absolute;
+            top: 0px;
+            right: 1px;
+            width: 190px;
+            height: 33px;
+            padding-right: 60px;
+            color: white;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #pno:hover {
+            border: #fff;
+        }
+
+        .bbtn {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            gap: 50px;
+        }
+
+        .iinp {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 35px;
+            border-radius: 0px;
+            animation: glow 0.9s linear infinite;
+            transition: all 0.5s ease
+        }
+
+        .iinp:hover {
+            box-shadow: 0 0 5px white;
+        }
+
+        #namesett {
+            position: absolute;
+            right: 10px;
+            background: none;
+            cursor: pointer;
+        }
+
+        #shname {
+            overflow-y: hidden;
+            overflow-x: auto;
+            height: 100%;
+            width: 70%;
+            position: absolute;
+        }
+
+        .ts,
+        .feed,
+        .pap,
+        .not,
+        .abs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            width: 90%;
+            height: 60px;
+            box-shadow: 0 0 8px white;
+            transition: all 0.3s ease-in-out;
+            background: #151313;
+            text-decoration: none;
+            overflow: hidden;
+            filter: brightness(1.0);
+        }
+
+        .ts:hover::before,
+        .feed:hover::before,
+        .pap:hover::before,
+        .not:hover::before,
+        .abs:hover::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -20%;
+            width: 20%;
+            height: 100%;
+            background: #ffffff2e;
+            transform: skewX(-75deg);
+            animation: shine 1s forwards;
+
+        }
+
+        .absa {
+            font-size: 25px;
+            color: #e0e0e0;
+            font-weight: 0;
+
+        }
+
+        .mypr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btnsett {
+            position: relative;
+            width: 90%;
+            height: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            bottom: 0px;
+            background: none;
+
+        }
+
+        .ts:hover,
+        .feed:hover,
+        .pap:hover,
+        .not:hover,
+        .abs:hover {
+
+            transform: scale(1.03);
+            box-shadow: 0 0 15px white;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+
+        #ccc {
+            display: flex;
+            align-items: center;
+            font-size: 27px;
+            color: whitesmoke;
+            transform: translateY(10px);
+            transition: all 0.1s ease;
+            width: 400px;
+            transition: all 0.95s ease;
+        }
+
+        .focus {
+            width: 80%;
+            display: flex;
+            justify-content: left;
+            position: relative;
+            top: -50px;
+            font-size: 30px;
+        }
+
+        .notify {
+            width: 80%;
+            display: flex;
+            justify-content: left;
+            position: relative;
+            top: -50px;
+            font-size: 30px;
+        }
+
+        .noti {
+            border: 2px solid #e0e0e0;
+            background: none;
+            color: black;
+            position: absolute;
+            right: 0px;
+            width: 90px;
+            height: 40px;
+            color: white;
+        }
+
+        .foc {
+            border: 2px solid #e0e0e0;
+            background: none;
+            color: black;
+            position: absolute;
+            right: 0px;
+            width: 90px;
+            height: 40px;
+            color: white;
+        }
+
+        .foc:hover,
+        .noti:hover {
+            border: 2px solid #e0e0e0;
+            width: 90px;
+            height: 40px;
+        }
+
+        #move {
+            width: 25px;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            position: relative;
+            left: 0px;
+            transition: all 0.4s ease-in-out;
+        }
+
+        #move1 {
+            width: 25px;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            position: relative;
+            left: 0px;
+            transition: all 0.4s ease-in-out;
+        }
+
+        #move .go {
+            position: relative;
+            left: 48px;
+            background-color: #121212;
+        }
+
+        #removepn {
+            width: 200px;
+            height: 40px;
+            background: #e0e0e0;
+            color: black;
+            border-radius: 5px;
+        }
+
+        #removepn:hover {
+            width: 210px;
+            box-shadow: 0 0 10px cyan;
+        }
+
+        #msg {
+            width: auto;
+            min-width: 450px;
+            height: 50px;
+            color: white;
+            position: fixed;
+            top: 0px;
+            border: none;
+            z-index: 99999999999999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .msgc {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sss {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .fta {
+            position: relative;
+            left: 50px;
+            transition: all 0.2s ease-in-out;
+            color: blue;
+        }
+
+        .fta:hover {
+            color: #9c029c;
+        }
+
+        .fth {
+            font-size: 35px;
+        }
+
+        #loging {
+            width: 90%;
+            height: 40px;
+            background: linear-gradient(to right, crimson, navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease-in-out;
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden !important;
+        }
+
+        #logine {
+            width: 90%;
+            height: 40px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            z-index: 1;
+            border-radius: 5px;
+            background: linear-gradient(to right, navy, crimson);
+            overflow: hidden !important;
+        }
+
+        #logine a {
+            color: white;
+        }
+
+        #logine:hover,
+        #loging:hover {
+            transform: scale(1.05);
+            border-radius: 8px;
+        }
+
+        #logine::before,
+        #loging::before {
+            content: "";
+            position: absolute;
+            left: -12%;
+            width: 30%;
+            height: 100%;
+            background: #ffffff2e;
+            transform: skewX(-75deg);
+            z-index: 1;
+            display: none;
+        }
+
+        #logine:hover::before,
+        #loging:hover::before {
+            animation: shine 1s linear forwards;
+            display: inline;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -150%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        .line {
+            width: 100%;
+            border: 1px solid #334155;
+        }
+
+        .login {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        .crite {
+            width: 100%;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .ee {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            font-size: 30px;
+        }
+
+        .battle {
+            position: fixed;
+            top: 330px;
+            width: 60px;
+            height: 60px;
+            z-index: 9999;
+            border-radius: 5px;
+            left: 10px;
+            font-size: 25px;
+            background: linear-gradient(to top right, darkblue, purple);
+            filter: brightness(1.4);
+        }
+
+        .battle:hover {
+
+            width: 200px;
+            height: 62px;
+        }
+
+        .battle:hover::after {
+            content: " Battle Arena";
+            font-size: 22px;
+        }
+
+        #saved::before,
+        #sighout::before,
+        .foc::before,
+        .noti::before {
+            animation: none !important;
+            width: 0px;
+        }
+
+        .announce {
+            width: 100%;
+            overflow: hidden;
+            background: #333;
+            color: #38bdf8;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 500;
+            position: relative;
+            color: white;
+            font-size: 20px;
+            height: 32px;
+            line-height: 22px;
+            left: 0;
+            top: 6px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            transition: all 0.9s ease;
+        }
+
+        .track {
+            display: inline-block;
+            white-space: nowrap;
+            transform: translateX(120%);
+            animation: scroll 15s linear infinite;
+        }
+
+        .track p {
+            display: inline-block;
+            padding-left: 100%;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(150%);
+            }
+
+            to {
+                transform: translateX(-150%);
+            }
+        }
+
+        @media (min-width:765px) {
+            .panel {
+                color: white;
+                width: 140px;
+                height: 60px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .contimg {
+                position: relative;
+                top: 50px;
+                width: 100vh;
+                border: none;
+                border-radius: 18px;
+
+            }
+
+            #txt {
+                color: white;
+                font-size: 25px;
+                font-family: 'Times New Roman', Times, serif;
+                width: 80%;
+            }
+
+            #txt h1 {
+                width: 75%;
+                color: white;
+                position: relative;
+                top: 60px;
+                text-align: center;
+                font-size: 50px;
+                border-right: 2px solid white;
+                white-space: nowrap;
+                overflow: hidden;
+                animation:
+                    typing 1s steps(18),
+                    cursor 0.4s step-end infinite alternate;
+            }
+
+            @keyframes cursor {
+                50% {
+                    border-color: transparent;
+                }
+            }
+
+            @keyframes typing {
+                from {
+                    width: 0;
+                }
+            }
+
+            .conect {
+                font-size: 30px;
+                text-align: right;
+            }
+
+            .b4 {
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .b4:hover {
+                width: 82px;
+                height: 82px;
+                border: none;
+            }
+
+            .arr {
+                position: relative;
+                top: -2px;
+            }
+
+            .qs {
+                width: 80px;
+                height: 80px;
+            }
+
+            .qs:hover {
+                width: 200px;
+                height: 82px;
+                border: none;
+            }
+
+            .sett {
+                font-size: 40px;
+            }
+
+            .footerctn {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .fta {
+                left: 5px;
+            }
+
+            .sp {
+                position: relative;
+                left: -10px;
+            }
+
+            .ccd {
+                position: relative;
+                background: none;
+                font-size: medium;
+                top: 40px;
+                right: 406px;
+
+            }
+
+            .marqee-scroll {
+                position: relative;
+                left: 0;
+                top: 10px;
+            }
+
+            i {
+                right: 10px;
+                font-size: 20px;
+            }
+
+            #promode {
+                width: 110px;
+                height: 50px;
+            }
+
+
+        }
+
+        @media (min-width:1025px) {
+            .panel {
+                color: white;
+                width: 140px;
+                height: 60px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .contimg {
+                position: relative;
+                top: 50px;
+                width: 100vh;
+                border: none;
+                border-radius: 18px;
+
+            }
+
+            #txt {
+                color: white;
+                font-size: 25px;
+                font-family: 'Times New Roman', Times, serif;
+                width: 80%;
+            }
+
+            #txt h1 {
+                width: 45%;
+                color: white;
+                position: relative;
+                top: 60px;
+                text-align: center;
+                font-size: 50px;
+                border-right: 2px solid white;
+                white-space: nowrap;
+                overflow: hidden;
+                animation:
+                    typing 1s steps(18),
+                    cursor 0.4s step-end infinite alternate;
+            }
+
+            @keyframes cursor {
+                50% {
+                    border-color: transparent;
+                }
+            }
+
+            @keyframes typing {
+                from {
+                    width: 0;
+                }
+            }
+
+            .conect {
+                font-size: 30px;
+                text-align: right;
+            }
+
+            .b4 {
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .b4:hover {
+                width: 82px;
+                height: 82px;
+                border: none;
+            }
+
+            .qs {
+                width: 80px;
+                height: 80px;
+            }
+
+            .qs:hover {
+                width: 200px;
+                height: 82px;
+                border: none;
+            }
+
+            .arr {
+                position: relative;
+                top: -2px;
+            }
+
+            .marqee-scroll {
+                position: relative;
+                left: 0;
+                top: 10px;
+            }
+
+            .footerctn {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .fta {
+                left: 5px;
+            }
+
+            .sp {
+                position: relative;
+                left: -10px;
+            }
+
+            .ccd {
+                position: relative;
+                background: none;
+                font-size: medium;
+                top: 40px;
+                right: 406px;
+
+            }
+
+            i {
+                right: 10px;
+                font-size: 20px;
+            }
+
+            #promode {
+                width: 110px;
+                height: 50px;
+            }
+
+
+        }
+
+        .stbc {
+            width: 100%;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .Notification {
+            width: 100%;
+            color: white;
+            height: 60px;
+            background: #000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            z-index: 10000;
+            bottom: 0px;
+            font-size: larger;
+            padding: 10px;
+        }
+
+        .ye {
+            width: 100px;
+            height: 35px;
+            background: white;
+            color: black;
+            font-weight: bold;
+        }
+
+        .no {
+            width: 100px;
+            height: 35px;
+            background: transparent;
+            color: white;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+
+        .ye::before,
+        .no::before {
+            width: 0px;
+        }
+
+        .ye:hover,
+        .no:hover {
+            width: 105px;
+            height: 35px;
+            border: 2px solid white;
+        }
+
+        #promode {
+            width: 110px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(to top right, red, blue);
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #promode::before {
+            width: 0px;
+        }
+
+        #promode svg {
+            width: 150px;
+            height: 50px;
+            border-radius: 10px;
+            background: none;
+            transition: all 0.3s ease;
+        }
+
+        #promode:hover svg {
+            transform: rotate(-30deg);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="top-panels">
+        <a href="index.html" class="panel active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="Papers.html" class="panel"><i class="fa-solid fa-file"></i> Papers</a>
+        <a href="Notes.html" class="panel"><i class="fa-solid fa-note-sticky"></i> Notes</a>
+        <a href="About.html" class="panel"><i class="fa-solid fa-circle-info"></i> About</a>
+    </div>
+    <div id="up"></div>
+
+    <div class="msgc">
+        <div id="msg"></div>
+    </div>
+    <br><br><br><br>
+    <div class="announce">
+        <div class="track"> Wait! you have a question? Want to give feedback or any suggesion? click on the 🗨️ button
+            below!</div>
+    </div><br><br>
+    <div id="ccc"><img src="Logo.webp" alt="Image" class="logo"> StudyPANO</div>
+    <div class="ct"> <a href="About.html#ctn" class="conect"><button class="qs">🗨️</button></a>
+    </div>
+    <div class="sett" id="rotate" onclick="openSetting()">⚙️</div>
+    <div class="settingctn" id="settingshow">
+        <div class="settingmenue">
+            <button class="cl" onclick="remo()">×</button>
+            <div class="head">
+                <h1>Settings</h1>
+
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <button id="promode">
+                <svg width="40" height="36" viewBox="-20 0 220 260" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M90,0
+         C90,0   75,110   0,130
+         C75,150  90,260  90,260
+         C90,260 105,150 180,130
+         C105,110  90,0   90,0 Z" fill="white" stroke="none" stroke-width="8" />
+                </svg>
+                Upgrade
+            </button>
+            <div class="mypr">
+                <h1>......... My Profile .........</h1>
+
+                <div id="profilephoto"><input type="file" accept="image/*" id="photo" hidden><label for="photo"
+                        id="photostr">+</label></div><br><br>
+                <button id="removepn" onclick="removepht()">Remove Photo</button>
+                <br><br>
+                <div class="profile">
+                    <p class="iinp"><strong>Name:&nbsp;<span id="shname"></span><input id="Name" type="text"></strong>
+                        <span id="namesett" onclick="editn()">🖋️</span>
+                    </p>
+                    <p class="iinp"><strong>Email:&nbsp; </strong> <span id="email"></span></p>
+                    <p class="iinp"><strong>Phone No:&nbsp;<span id="shpno"></span><input id="pno" type="tel"
+                                pattern="[0-9]{10}" maxlength="10" inputmode="numeric"></strong>
+                        <span id="namesett" onclick="editp()">🖋️</span>
+                    <p><strong>Role:</strong>
+                    <div><label>
+                            <input type="radio" value="Student" name="role">Student
+                            <br>
+                            <input type="radio" value="Teacher" name="role">Teacher
+                        </label>
+                    </div>
+                    </p>
+                </div>
+                <div class="sss">
+                    <button id="saved" type="button" onclick="saved()">Save</button>
+                    <button id="sighout" type="button" onclick="signout()">Sign out</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="stbc">
+                <div class="focus">
+                    Focus Mode <button class="foc" id="Focus">
+                        <div id="move"></div>
+                    </button></div>
+                <div class="notify">
+                    Notification <button onclick="setupFCM()" class="noti" id="Notify">
+                        <div id="move1"></div>
+                    </button></div>
+            </div>
+            <div class="btnsett">
+                <div class="ts" onclick="pgc('Progress Board.html')">Progress Board</div>
+                <div class="feed" onclick="pgc('About.html#ctn')">Feedback</div>
+                <div class="pap" onclick="pgc('Papers.html')">Papers</div>
+                <div class="not" onclick="pgc('Notes.html')">Notes</div>
+                <div class="abs" onclick="pgc('About.html')">About Us</div>
+                <div class="abs" onclick="pgc('Terms and condition.html')">Terms & Condition</div>
+                <div class="abs" onclick="pgc('Policy.html')">Privacy Policy</div>
+                <div class="abs">
+                    <h3><a class="absa" href="mailto:m.soumiksingha@gmail.com" ?subject="Support Request"
+                            &body="Hello StudyPANO Team, I need help with - ">Support</a></h3>
+                </div>
+                <div class="line"></div>
+                <div class="crite">© StudyPANO 2026. All rights reversed.</div>
+                <br>
+            </div>
+        </div>
+    </div><br><br>
+    <button class="battle" id="battle" onclick="btt()">⚔️</button>
+
+    <div class="Notification" id="notification">Do you want this website to send notification? <button class="ye"
+            onclick="setupFCM()">Yes</button> &nbsp;
+        <button class="no" onclick="permno()">No</button>
+    </div>
+    <div id="body">
+        <div class="container">
+            <div id="txt">
+                <div class="hhd">
+                    <H1>How To Make Notes?</H1>
+                </div>
+                <div class="pic" id="pic">
+                    <img class="contimg" src="pic1.webp" alt="Image">
+                </div><br>
+                <br><br><br>
+                <h4>
+                    <h2> 1) Understand the purpose of notes
+                        Notes are not meant to copy the book. Their job is to:</h2>
+                    <h4>
+                        <ul>
+                            <li>help you understand concepts</li>
+                            <li> make revision faster</li>
+                            <li> highlight important points</li>
+                            <li> store information in your own words so it stays in memory longer</li>
+                        </ul>
+                        Good notes = short + clear + meaningful.<br><br>
+                    </h4>
+                    <h2>2) Read first, then write
+                        Never start writing immediately. Step-by-step:</h2>
+                    <h3> Read the topic once to understand the idea.<br>
+                        Read again and find:</h3>
+                    <h4>
+                        <ul>
+                            <li>definitions</li>
+                            <li>formulas</li>
+                            <li>dates</li>
+                            <li>keywords</li>
+                            <li>diagrams</li>
+                        </ul>
+                        Now write notes in your own words.
+                        This improves understanding and memory.<br><br>
+                    </h4>
+                    <h2> 3) Use simple structure
+                        Always keep notes organized. Use this order:</h2>
+                    <h3><b> (a) Heading</b></h3>
+                    <h4> Write the chapter/topic name clearly.<br><br></h4>
+                    <h3><b>(b) Subheadings</b><br></h3>
+                    <h4> Break into parts like:
+                        <ul>
+                            <li>Definition<br> </li>
+                            <li>Types<br></li>
+                            <li>Formula<br></li>
+                            <li>Examples<br> </li>
+                            <li>Diagram<br> </li>
+                            <li>Uses<br><br></li>
+                        </ul>
+                    </h4>
+                    <h3><b> (c) Bullet points</b><br></h3>
+                    <h4> Avoid long paragraphs. Use points.<br>
+                        Bad:<br>
+                        Photosynthesis is a process in which plants prepare food using sunlight...<br><br>
+                        Good:<br>
+                        Process by which plants make food Using sunlight, water, carbon dioxide and
+                        Produces glucose and oxygen
+                        <br><br>
+                    </h4>
+                    <h2> 4) Use keywords, not full sentences
+                        Write only important words.</h2>
+                    <h3> Example:</h3>
+                    <h4>Instead of:<br>
+                        The French Revolution started in 1789 due to social inequality.<br>
+                        Write:<br> &nbsp; &nbsp; &nbsp;
+                        French Revolution – 1789<br>
+                        &nbsp; &nbsp; &nbsp; Cause: social inequality<br><br>
+                        <h3>This saves time and improves revision speed.</h3>
+                    </h4>
+                    <h2> 5) Use diagrams and flowcharts</h2>
+                    <h3> Especially useful for:</h3>
+                    <h4>
+                        <ul>
+                            <li>Science</li>
+                            <li>Geography<br></li>
+                            <li>Biology</li>
+                            <li>Computer</li>
+                            <h3>Examples:</h3>
+                            <li>Life cycle</li>
+                            <li>Process steps</li>
+                            <li> Ray diagrams</li>
+                            <li> Maps</li>
+                        </ul>
+                        <h3>Visual memory is stronger than text memory.</h3>
+                    </h4>
+                    <h2> 6) Highlight important things and Use:</h2>
+                    <h4>
+                        <ul>
+                            <li>boxes</li>
+                            <li>highlighter</li>
+                            <li>underlining</li>
+                        </ul>
+                    </h4>
+                    <h3>different colors Highlight:</h3>
+                    <h4>
+                        <li>formulas</li>
+                        <li>dates</li>
+                        <li>definitions</li>
+                        <li>keywords</li>
+                    </h4>
+
+                    <h2> 7) Make subject-wise style</h2>
+                    <div class="pic" id="pic">
+                        <img class="contimg" src="pic2.webp" alt="Image"><br><br><br><br>
+                    </div><br><br><br><br><br>
+                    <h3>Different subjects need different note styles.</h3>
+                    <h4>
+                        <b>Science :</b> <br>
+                        <ul>
+                            <li>definitions</li>
+                            <li>formulas</li>
+                            <li>diagrams</li>
+                            <li> steps of experiments</li>
+                        </ul>
+                        <b> Maths :</b><br>
+                        <ul>
+                            <li>formula list</li>
+                            <li>solved examples</li>
+                            <li>important tricks</li>
+                        </ul>
+                        <b>History / Geography :</b>
+                        <ul>
+                            <li> dates</li>
+                            <li>events</li>
+                            <li>causes & effects</li>
+                            <li> maps</li>
+                        </ul>
+                        <b>Computer / Programming :</b><br>
+                        <ul>
+                            <li>syntax</li>
+                            <li>commands</li>
+                            <li> small code examples</li>
+                            <li> error notes</li>
+                        </ul>
+                    </h4>
+                    <h2> 8) Use the “Question method”.Write notes like answers.</h2>
+                    <h3> Example:</h3>
+                    <h4>Q: What is refraction?<br>
+                        Ans: Bending of light when it passes from one medium to another.
+                        This helps directly in exams.
+                    </h4>
+                    <h2>9) Keep notes short for revision
+                        Make two types:</h2>
+                    <h4>
+                        <ul>
+                            <li>Detailed notes (for understanding)</li>
+                            <li>Quick revision notes (1–2 pages per chapter)
+                                Before exams, only read revision notes.</li>
+                        </ul>
+                    </h4>
+                    <h2>10) Revise and update notes After class:</h2>
+                    <h4>
+                        <ul>
+                            <li>add teacher’s explanation</li>
+                            <li>add examples</li>
+                            <li> correct mistakes</li>
+                            <li>improve clarity</li>
+                            <li> Notes improve over time.</li>
+                        </ul>
+                    </h4>
+                    <h2>11) Digital vs handwritten notes</h2>
+                    <h4>
+                        <b>Handwritten</b>
+                        <ul>
+                            <li> better memory</li>
+                            <li> better for school exams</li>
+                            <li> diagrams easy</li>
+                        </ul>
+                        <b>Digital</b>
+                        <ul>
+                            <li> easy editing</li>
+                            <li>searchable</li>
+                            <li> good for computer subjects</li>
+                        </ul>
+                    </h4>
+                    <h3>Best method: use both.</h3>
+                    <h2> 12) Common mistakes to avoid :</h2>
+                    <h4>
+                        <ul>
+                            <li>copying book word-to-word</li>
+                            <li> writing long paragraphs</li>
+                            <li>not using headings</li>
+                            <li> not revising notes</li>
+                            <li>writing messy notes</li>
+                        </ul>
+                    </h4>
+                    <h2> 13) Ideal note-making method (topper strategy)</h2>
+                    <h4>
+                        <ul>
+                            <li>Read chapter</li>
+                            <li> Understand concept</li>
+                            <li>Write short notes</li>
+                            <li>Add diagrams</li>
+                            <li> Highlight key points</li>
+                            <li> Make revision sheet</li>
+                            <li> Revise weekly</li>
+                        </ul>
+                    </h4>
+
+                    <h2> 14) Powerful techniques students use Cornell Method Page divided into:</h2>
+                    <h4>
+                        <div class="pic" id="pic">
+                            <img class="contimg" src="pic3.webp" alt="Image">
+                        </div><br><br><br><br>
+                        <ul>
+                            <li>notes</li>
+                            <li>keywords</li>
+                            <li>summary</li>
+                            <li>Mind maps</li>
+                            <li>Central topic → branches → subtopics</li>
+                            <li>Formula sheets</li>
+                        </ul>
+                    </h4>
+                    <h3>All formulas on one page per chapter.</h3>
+
+                    <h2>15) Final rule
+                        Best notes are:</h2>
+                    <h4>
+                        <ul>
+                            <li>short</li>
+                            <li>clear</li>
+                            <li>organized</li>
+                            <li>in your own words</li>
+                            <li> easy to revise in 5 minutes</li>
+                        </ul>
+                    </h4>
+                    <h3>That is what makes exams easier.</h3>
+                </h4>
+                <br>
+            </div>
+
+        </div>
+        <div class="btn">
+            <button class="b1" type="button" onclick="callP()">PAPERS</button>
+            <button class="b2" type="button" onclick="callN()">NOTES</button>
+            <button class="b3" type="button" onclick="callA()">ABOUT</button>
+        </div>
+        <div class="btnup">
+            <a href="#up" class="up">
+                <button class="b4" type="button">
+                    <h1 class="arr">↑</h1>
+                </button>
+            </a>
+        </div>
+        <br>
+        <br><br>
+    </div>
+    <div class="footer">
+        <div class="ee">
+            <div id="ccc"><img src="Logo.webp" alt="Image" class="logo">
+                <h1 class="fth">StudyPANO</h1>
+            </div>
+            <div class="ccd">
+                <h3>Learn - Lead - Excel</h3>
+            </div>
+        </div><br>
+
+        <div class="footerctn">
+            <div class="ql">
+                <h2>Quick Links :</h2>
+                <a class="fta" href="Papers.html">
+                    <h3>Papers</h3>
+                </a>
+                <a class="fta" href="Notes.html">
+                    <h3>Notes</h3>
+                </a>
+                <a class="fta" href="About.html">
+                    <h3>About Us</h3>
+                </a>
+            </div>
+            <div class="sf">
+                <h2>Safety Features :</h2>
+                <a class="fta" href="Terms and condition.html">
+                    <h3>Terms & condition</h3>
+                </a>
+                <a class="fta" href="Policy.html">
+                    <h3>Privacy Policy</h3>
+                </a>
+            </div>
+            <div class="sp">
+                <h2>Support:</h2>
+
+                <h3><a class="fta" href="mailto:studypanosupport@gmail.com" ?subject="Support Request"
+                        &body="Hello StudyPANO Team, I need help with - ">support@StudyPANO.com</a></h3>
+
+                <a class="fta" href="About.html#ctn">
+                    <h3>Feedback</h3>
+                </a>
+            </div>
+            <div class="line"></div><br>
+
+        </div>
+        <div class="login">
+            <div id="loging" class="gmail" onclick="googleLogin()">
+                <h2>Login with Google</h2>
+            </div>
+            <br>
+
+            <div id="logine" class="email">
+                <a href="login.html">
+                    <h2>Login with Email Id</h2>
+                </a>
+            </div>
+            <br><br><br>
+            <div class="line"></div><br>
+            <div class="crite">© StudyPANO 2026. All rights reversed.</div>
+            <br><br>
+
+        </div>
+    </div>
+    <script src="javascript/focus.js"></script>
+    <script>
+        window.addEventListener("scroll", function () {
+            let box = document.getElementById("rotate");
+            let battle = document.getElementById("battle");
+            if (window.scrollY > 200) {
+                box.classList.add("fixed");
+
+            } else {
+                box.classList.remove("fixed");
+            }
+        });
+        function btt() {
+            window.location.href = "Arena.html";
+        };
+        document.getElementById("saved").classList.add("over");
+        document.getElementById("saved").disabled = true;
+        const msg = document.getElementById("msg");
+        //phone block texts 
+        let pin = document.getElementById("pno");
+        pno.addEventListener("keydown", (e) => {
+            const keyp = e.key;
+            if (!(/[0-9]/.test(e.key) || keyp === "Enter" || keyp === "Backspace")) {
+                e.preventDefault();
+            }
+        })
+        // Function to show message and auto-hide
+        function showMessage(text, bgColor, duration = 2000) {
+            msg.style.display = "flex";
+            msg.innerText = text;
+            msg.style.background = bgColor;
+            setTimeout(() => {
+                msg.style.display = "none";
+            }, duration);
+        }
+        function pgc(page) {
+            window.location.href = page;
+        }
+        const radios = document.querySelectorAll('input[name="role"]');
+        radios.forEach(radio => {
+            radio.addEventListener("change", function () {
+                document.getElementById("saved").classList.remove("over");
+                localStorage.setItem("selectedrole", this.value);
+            });
+        });
+        const savedval = localStorage.getItem("selectedrole");
+        if (savedval) {
+            const radiosel = document.querySelector(`input[name="role"][value = "${savedval}"]`);
+            if (radiosel) {
+                radiosel.checked = true;
+            }
+        }
+        document.addEventListener("keydown", (event) => {
+            let key = event.key;
+            if (key === "Enter") {
+                saved();
+            }
+        });
+        function callP() {
+            window.location.href = "Papers.html";
+        }
+        function callA() {
+            window.location.href = "About.html";
+        }
+        function callN() {
+            window.location.href = "Notes.html";
+        }
+        function openSetting() {
+            document.getElementById("settingshow").classList.add("show");
+            document.getElementById("rotate").classList.add("rotate");
+            document.getElementById("body").classList.add("del");
+            document.body.overflow = " hidden";
+            document.body.scrollbar.width = "0px";
+        }
+        function remo() {
+            document.getElementById("settingshow").classList.remove("show");
+            document.getElementById("rotate").classList.remove("rotate");
+            document.body.overflow = " auto";
+        }
+        function editn() {
+            document.getElementById("Name").style.display = "inline";
+            document.getElementById("shname").innerHTML = "";
+            document.getElementById("saved").classList.remove("over");
+            document.getElementById("saved").disabled = false;
+        }
+        function editp() {
+            document.getElementById("pno").style.display = "inline";
+            document.getElementById("shpno").innerHTML = "";
+            document.getElementById("saved").classList.remove("over");
+            document.getElementById("saved").disabled = false;
+        }
+        async function saved() {
+            let name = document.getElementById("Name").value;
+            let Phone = document.getElementById("pno").value;
+            document.getElementById("Name").style.display = "none";
+            document.getElementById("shname").innerHTML = document.getElementById("Name").value;
+            document.getElementById("pno").style.display = "none";
+            document.getElementById("shpno").innerHTML = document.getElementById("pno").value;
+            document.getElementById("saved").classList.add("over");
+            await savetobase();
+            document.getElementById("saved").disabled = true;
+            localStorage.setItem("name", name);
+            localStorage.setItem("phone", Phone);
+        }
+        const fileInput = document.getElementById("photo");
+        const uploadBox = document.getElementById("photostr");
+
+        // Drag & Drop
+        uploadBox.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            uploadBox.style.border = "2px dashed cyan"; // highlight when dragging
+        });
+
+        uploadBox.addEventListener("dragleave", (e) => {
+            e.preventDefault();
+            uploadBox.style.border = "1px solid black"; // reset border
+        });
+
+        uploadBox.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        });
+
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+            handleFile(file);
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                uploadBox.innerHTML = `
+            <img src="${e.target.result}">`;
+                localStorage.setItem("photo", reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+        window.onload = function () {
+            const img = document.createElement("img");
+            img.src = localStorage.getItem("photo");
+            uploadBox.appendChild(img);
+            document.getElementById("shname").innerHTML = localStorage.getItem("name");
+            document.getElementById("shpno").innerHTML = localStorage.getItem("phone");
+            console.log("Page loaded");
+            if (!navigator.onLine) {
+                showMessage("No Internet Connection!", "red");
+            }
+            else {
+                showMessage("Connected to Internet", "green");
+            }
+        };
+
+        function removepht() {
+            const photo = localStorage.getItem("photo");
+            if (!photo) {
+                showMessage("Please upload your photo", "red", 5000);
+            }
+            else {
+                const con = confirm("Do you want to remove your profile photo?");
+                if (con) {
+                    uploadBox.innerHTML = "+";
+                    localStorage.removeItem("photo");
+                    showMessage("profile Photo deleted!", "green");
+                }
+                else {
+                    showMessage("profile Photo not deleted!", "blue");
+                }
+            }
+        }
+        /* document.addEventListener("contextmenu", e => {
+             e.preventDefault();
+             showMessage("Right click dissabled for safety reason!", "red");
+         });*/
+
+        //notification permition asker
+        const not = document.getElementById("notification");
+        if (Notification.permission === "granted") {
+            not.style.display = "none";
+        }
+        else {
+            setTimeout(() => {
+                not.style.display = "flex";
+            }, 1000);
+        }
+
+    </script>
+    <script type="module">
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            doc,
+            setDoc,
+            query,
+            where
+        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        import {
+            getMessaging,
+            getToken
+        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-messaging.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDnqF2BRNKNpfQWsDsveNOHsJaFqep1wcY",
+            authDomain: "studypano-8fa02.firebaseapp.com",
+            projectId: "studypano-8fa02",
+            storageBucket: "studypano-8fa02.firebasestorage.app",
+            messagingSenderId: "611559409149",
+            appId: "1:611559409149:web:c1180ec801d07f68100594"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const messaging = getMessaging(app);
+
+        onAuthStateChanged(auth, (user) => {
+
+            if (user) {
+                const email = user.email || user.providerData[0].email;
+                console.log("User email:", email);
+                document.getElementById("email").innerText = email;
+                document.getElementById("sighout").classList.remove("over");
+                document.getElementById("sighout").disabled = false;
+
+            }
+            else {
+                console.log("No user logged in");
+                document.getElementById("email").innerText = "Not logged in";
+                document.getElementById("sighout").classList.add("over");
+                document.getElementById("sighout").disabled = true;
+            }
+        });
+
+
+        window.signout = function () {
+            document.getElementById("shpno").innerText = "";
+            document.getElementById("shname").innerText = "";
+            localStorage.removeItem("name");
+            localStorage.removeItem("phone");
+            const radiosel = document.querySelector(`input[name="role"]`);
+            if (radiosel) {
+                radiosel.checked = false;
+            }
+            signOut(auth)
+                .then(() => {
+                    console.log("Sign Out");
+                    document.getElementById("email").innerText = "Not loggined!";
+                }).catch((error) => {
+                    console.error("Logout error :", error);
+                });
+
+            document.getElementById("sighout").classList.add("over");
+            document.getElementById("sighout").disabled = true;
+        };
+        window.savetobase = async function () {
+
+            console.log("Saving to database...");
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const user = auth.currentUser;
+            if (!user) {
+                showMessage("Please login to save your profile data to database!", "red", 5000);
+                return;
+            }
+            const name = document.getElementById("Name").value;
+            const phone = document.getElementById("pno").value;
+            await setDoc(doc(db, "Users", user.uid), {
+                name: name,
+                phone: phone
+            });
+            showMessage("Profile data saved to database!", "green");
+        };
+        window.getname = async () => {
+            const user = auth.currentUser;
+            if (!user) {
+                console.log("No user loggined");
+                return;
+            }
+            const q = query(collection(db, "Users"), where("uid", "==", user.uid))
+            const snps = await getDocs(q);
+            if (snps.empty) {
+                console.log("User not found in DB");
+                return;
+            }
+            snps.forEach((doc) => {
+                const data = doc.data();
+                const name = data.name;
+                const phone = data.phone
+            })
+        }
+
+    </script>
+    <script type="module" src="javascript/connectemgg.js"></script>
+    <script type="module" src="javascript/notification.js"></script>
+    <script type="module" src="javascript/notify.js"></script>
+    <script src="javascript/tracker.js"></script>
+</body>
+
+</html>

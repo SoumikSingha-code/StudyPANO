@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="../paper.css">
+        <title> Physics Papers</title>
+</head>
+
+<body data-subject="Physicsp">
+        <p>Time spent today: <span id="timeSpent">0 min 0 sec</span></p>
+        <p id="currentTime"></p>
+        <h1>Select or Search Papers</h1>
+        <div class="srch">
+                <input type="text" id="searchbar" placeholder="Search Papers" onkeyup="Searchcontent()">
+        </div>
+        <br><br>
+        <div class="lin"></div>
+        <br>
+        <div class="msgc">
+                <div id="msg"></div>
+        </div>
+        <div class="ct">
+                <div class="op"> <a href="../pdfs/physics/ICSE-Physics-Pupil-Analysis.pdf"
+                                target="_blank">ICSE-Physics-Pupil-Analysis -
+                                2025</a></div>
+
+                <div class="op"> <a href="../pdfs/physics/5.SOUND-CFQICSEPHYSICS.pdf" target="_blank">Chapter-7
+                                Competency
+                                Focused Questions</a></div>
+                <div class="op"> <a href="../pdfs/physics/7.Sound-StructuredQuestions.pdf" target="_blank">Chapter-7
+                                Structured Questions</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/Ch-3 Machines Notes(Std-10).pdf" target="_blank">Ch-3 Machines
+                                Notes</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/ELECTROMAGNETIC INDUCTION  40M Grade X 2025-26.pdf"
+                                target="_blank">ELECTROMAGNETIC 40M 2025-26</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/FORCE 40M paper 2025-26.pdf" target="_blank">FORCE 40 marks
+                                paper</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/Gr.10 Physics Pre board -1 2025-26.pdf"
+                                target="_blank">Physics
+                                Pre-exam (one day before exam) </a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/Grade X  40M Sound paper 2025-26 solutions.pdf"
+                                target="_blank">Sound
+                                40 marks paper</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/HOUSEHOLD CIRCUITS  40M grade X 2025-26.pdf"
+                                target="_blank">HOUSEHOLD
+                                CIRCUITS 40 marks paper</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/MASTER MINDS force questions.pdf" target="_blank">MASTER MINDS
+                                FORCE QUESTION</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/Physics class 10 Question.pdf" target="_blank">PRACTICE
+                                QUESTION PAPER</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/REFRACTION THROUGH LENS 40M grade X 2025-26 solutions.pdf"
+                                target="_blank">REFRACTION THROUGH LENS 40 Marks</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/SIMPLE MACHINES 40M.pdf" target="_blank">SIMPLE MACHINES 40
+                                Marks</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/SPECTRUM 40M GRADE X PAPER 2025-26 solutions.pdf"
+                                target="_blank">SPECTRUM 40 Marks</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/WORK,POWER AND ENERGY 40m solutions.pdf"
+                                target="_blank">WORK,POWER AND ENERGY 40 Marks</a>
+                </div>
+                <div class="op"> <a href="../pdfs/physics/X PHY-7-SAMPLE QP 2025.pdf" target="_blank">SAMPLE QUESTION
+                                PAPER
+                                2025</a>
+                </div>
+        </div>
+        <br>
+        <br>
+        <div class="all">
+        </div>
+        <button class="upl" id="upl" type="button" onclick="upload()">Upload Paper ↑</button>
+        <div class="usp">
+                <form id="upload">
+                        <h1 class="hd">
+                                UPLOAD YOUR NOTES
+                        </h1>
+                        <button class="cl" onclick="uplp()">×</button>
+                        <div class="in">
+                                <div id="loginbtn">
+                                        <div id="login" onclick="openlis()">Login</div>
+                                </div>
+                                <br><br>
+                                Name:
+                                <input class="inp" id="name" placeholder="Enter your name">
+                                <br><br>
+                                Email Id:
+                                <input class="inp" id="email" placeholder="Enter your email id"><br><br>
+                                File name:
+                                <input class="inp" id="inf" placeholder="Enter the name of the file"><br><br>
+                                <div class="uc"> Upload photo or pdf click on the button: <button type="button"
+                                                class="ulp" onclick="optionshower()">+</button></div>
+                                <br>
+                                <div class="ul1">
+
+                                        <br><br>
+                                        <div id="option" class="hidden">
+                                                <label for="fileUpload" id="camera" onclick="Camera()">Camera</label>
+                                                <label for="fileUpload" id="file" onclick="Files()">Photo or
+                                                        file</label>
+                                        </div>
+                                        <input type="file" id="cameraUpload" name="camera" accept="image/*"
+                                                capture="environment" hidden>
+                                        <input type="file" id="fileUpload" name="file" accept="image/*,application/pdf"
+                                                capture="environment" hidden>
+                                </div>
+                                <div id="ulpp">Picture or File Preview</div>
+                                <div class="btn">
+                                        <button class="sb" id="upbtn" type="button"
+                                                onclick="uploadFile()">Submit</button>
+                                </div>
+                        </div>
+                </form>
+                <div id="optf">
+                        <div id="optionlog">
+                                <button class="cl st" onclick="remo()">×</button>
+                                <buttton class="logop1" onclick="googleLogin()">Login with Google</buttton>
+                                <buttton class="logop2" onclick="goToEmail()">Login with Email</buttton>
+                        </div>
+                </div>
+        </div>
+        <div class="ld" id="load">
+                <div class="loader"></div>
+        </div>
+        <script type="module" src="../javascript/serverconnecter.js"> </script>
+        <script type="module" src="../javascript/connectemgg.js"></script>
+        <script src="../javascript/script.js"></script>
+</body>
+
+</html>

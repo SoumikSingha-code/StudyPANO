@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>StudyPANO About</title>
+    <style>
+        html,
+        body {
+            background-color: #0f172a;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0px;
+            padding: 0px;
+            max-width: 100%;
+            color: white;
+        }
+
+        .panel::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            transition: 0.3s;
+        }
+
+        .panel.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            transition: 0.3s;
+        }
+
+        .panel.active {
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            color: white;
+            transform: translateY(-10px);
+            /* move upward */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .panel:hover::after {
+            width: 100%;
+        }
+
+        .panel.active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -12%;
+            width: 90%;
+            height: 100%;
+            background: #ffffff2e;
+            transform: skewX(-50deg);
+            animation: shine 4s linear infinite;
+
+        }
+
+        @keyframes shine {
+            0% {
+                left: -130%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        .top-panels {
+            display: flex;
+            gap: 5px;
+            background: #333;
+            width: 100%;
+            justify-content: center;
+            position: sticky;
+            top: 0px;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+            height: 80px;
+            margin: 0px;
+        }
+
+        .panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            width: 100px;
+            height: 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 10px;
+        }
+
+
+        i {
+            position: relative;
+            right: 5px;
+            font-size: 15px;
+        }
+
+
+
+        /* Hover effect */
+        .panel:hover {
+            background: linear-gradient(to right bottom, cyan, #9c029c);
+            color: white;
+            transform: translateY(-10px);
+            /* move upward */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        img {
+            position: relative;
+            top: 70px;
+            width: 45vh;
+            border: none;
+            border-radius: 18px;
+            text-align: center;
+
+        }
+
+        .pic {
+            display: flex;
+            justify-content: center;
+        }
+
+        .hd {
+            color: white;
+            position: relative;
+            top: 30px;
+            text-align: center;
+            font-size: 50px;
+        }
+
+        .txt {
+            color: white;
+            font-size: larger;
+            font-family: 'Times New Roman', Times, serif;
+            width: 80%;
+        }
+
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            top: 10px;
+        }
+
+        button {
+            color: black;
+            background: white;
+            border: none;
+            width: 40%;
+            font-size: 25px;
+            height: 50px;
+            border-radius: 20px;
+            position: relative;
+            text-align: center;
+            transition: all 0.2s ease;
+            z-index: 99999;
+            bottom: 10px;
+        }
+
+        button:hover {
+            width: 42%;
+            height: 55px;
+            border: 1px solid white;
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #64748b;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #ctn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #complain {
+            width: auto;
+            max-width: 350px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .frm {
+            width: 490px;
+            border: 1px solid white;
+            border-radius: 20px;
+            background: linear-gradient(to right top, rgb(167, 0, 0), rgb(0, 0, 158));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input {
+            min-width: none;
+            width: 97%;
+            text-align: center;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        input:hover {
+            height: 45px;
+        }
+
+        textarea {
+            width: 98%;
+            height: 70px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            text-overflow: clip;
+        }
+
+        textarea:hover {
+            height: 79px;
+        }
+
+        .upload {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            font-size: 60px;
+            border-radius: 18px;
+            position: relative;
+            top: 10px;
+            border: 1px solid black;
+            color: black;
+            transition: all 0.1s ease-in-out;
+        }
+
+        .upload:hover {
+            font-size: 70px;
+        }
+
+        .upl {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0px;
+        }
+
+        .removeBtn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 22px;
+            height: 22px;
+            font-size: 14px;
+        }
+
+        .removeBtn:hover {
+            width: 22px;
+            height: 22px;
+        }
+
+        #msg {
+            width: auto;
+            min-width: 450px;
+            height: 50px;
+            color: white;
+            position: fixed;
+            top: 0px;
+            border: none;
+            z-index: 10000000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .msgc {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        ul {
+            list-style-type: square;
+        }
+
+        .qs {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            top: 0px;
+
+        }
+
+        .txfb {
+            text-align: center;
+            width: auto;
+        }
+
+        .img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .ld {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            backdrop-filter: blur(10px);
+            z-index: 1000000;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 8px solid #bbb;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: fixed;
+            z-index: 10000000;
+        }
+
+        .inputs {
+            width: 97%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (min-width:765px) {
+            .panel {
+                color: white;
+                width: 140px;
+                height: 60px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+
+            .hd {
+                color: white;
+                position: relative;
+                top: 60px;
+                text-align: center;
+                font-size: 60px;
+            }
+
+            #txt {
+                color: white;
+                font-size: 25px;
+                font-family: 'Times New Roman', Times, serif;
+                width: 80%;
+            }
+
+            .frm {
+                width: 50%;
+                border: 1px solid white;
+                border-radius: 20px;
+                background: linear-gradient(to right top, rgb(167, 0, 0), rgb(0, 0, 158));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .upload {
+                width: 400px;
+                height: 400px;
+                font-size: 65px;
+
+            }
+
+            #ctn {
+                width: 100%;
+                height: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .inputs {
+                width: 100%;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            i {
+                right: 10px;
+                font-size: 20px;
+            }
+
+        }
+
+        @media (min-width:1025px) {
+            .panel {
+                color: white;
+                width: 140px;
+                height: 60px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .hd {
+                color: white;
+                position: relative;
+                top: 60px;
+                text-align: center;
+                font-size: 50px;
+            }
+
+            #ctn {
+                width: 100%;
+                height: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .txt {
+                color: white;
+                font-size: 25px;
+                font-family: 'Times New Roman', Times, serif;
+                width: 80%;
+            }
+
+            #complain {
+                width: 90%;
+                border-radius: 20px;
+            }
+
+            .frm {
+                width: 50%;
+                border: 1px solid white;
+                border-radius: 20px;
+                background: linear-gradient(to right top, rgb(167, 0, 0), rgb(0, 0, 158));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .upload {
+                width: 400px;
+                height: 400px;
+                font-size: 70px;
+
+            }
+
+            .inputs {
+                width: 100%;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            i {
+                right: 10px;
+                font-size: 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="css/focus.css">
+</head>
+
+<body>
+    <div class="top-panels">
+        <a href="index.html" class="panel"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="Papers.html" class="panel"><i class="fa-solid fa-file"></i> Papers</a>
+        <a href="Notes.html" class="panel"><i class="fa-solid fa-note-sticky"></i> Notes</a>
+        <a href="About.html" class="panel active"><i class="fa-solid fa-circle-info"></i> About</a>
+    </div>
+    <br>
+    <br>
+    <div class="focus">
+        Focus Mode <button id="Focus">
+            <div id="move"></div>
+        </button></div>
+    <br>
+    <div class="msgc">
+        <div id="msg"></div>
+    </div>
+
+    <h1 class="hd"> “Built by a student, for the students”</h1>
+    <h2><br><br>
+        This website is created to help students learn better, faster, and more confidently. It provides study
+        materials,
+        notes, explanations, and resources designed especially for school students who want clear understanding instead
+        of
+        confusing information.<br><br>
+        The main goal of this platform is to make learning simple and accessible. Many students struggle to find
+        organized
+        notes, correct explanations, and reliable content in one place. This website solves that problem by bringing
+        everything together in a structured and easy-to-use way.<br><br><br>
+        <h2></h2>
+        <div class="img">
+            <img class="qs" src="qs.webp">
+        </div>
+        <h2 class="txfb">There is a button on clicking it students can send feedback,
+            ask questions or give
+            suggessions.</h2>
+
+        <h1 class="hd">Here, students can find:</h1><br><br>
+        <h1 class="po">
+            <ul>
+                <li> Subject-wise study materials</li>
+                <li> Concept explanations in simple language</li>
+                <li> Exam preparation support</li>
+                <li> Helpful resources and guidance</li>
+                <li> Updates related to studies</li>
+            </ul>
+        </h1>
+        <h2>
+            This platform is built with the idea that every student deserves access to quality learning support, not
+            just
+            toppers or coaching students. Whether someone wants to revise quickly, understand a difficult topic, or
+            prepare for
+            exams, this website aims to assist them.<br><br>
+            Students can also report problems, give feedback, and suggest improvements so the platform keeps growing and
+            becoming more useful for everyone.<br></h2>
+        </h>
+        <h1> The mission is simple:</h1>
+        <h2>
+            <ul>
+                <li> to support students, </li>
+                <li> reduce confusion and</li>
+                <li>make learning more effective and stress-free.</li>
+            </ul>
+        </h2>
+        <div class="ld" id="load">
+            <div class="loader"></div>
+        </div>
+        <div id="ctn">
+            <br><br>
+            <div class="frm">
+                <div id="fr">
+                    <h1 style="text-align: center; position: relative;top: 30px;font-size: 45px;">Feedback</h1><br><br>
+
+                    <form id="complain" action="https://formspree.io/f/xaqdeyel" method="POST"
+                        enctype="multipart/form-data">
+                        <h2>
+                            &nbsp; Name:<br>
+                            <div class="inputs">
+                                <input type="text" name="name" id="nm" placeholder="Enter your name" required>
+                            </div>
+                            <br>
+                            &nbsp; Email Id:<br>
+                            <div class="inputs"> <input type="email" name="email" id="em"
+                                    placeholder="Enter your Email Id" required></div>
+
+                            <br>
+                            Feedback:<br>
+                            <textarea type="text" id="com" name="Feedback"
+                                placeholder="Enter your Question, Suggession, Feedback etc..."
+                                required></textarea><br><br>
+                            Upload a screenshort of problem less than 5MB <br>(Not Compulsory):<br>
+                            <div class="upl">
+                                <label for="scrsort" class="upload" id="upload">+</label>
+                                <input type="file" id="scrsort" name="screenshort" accept="image/*" hidden>
+                            </div>
+                            <br><br>
+                            <div class="btn">
+                                <button type="submit">Send 🛸</button>
+                            </div>
+                        </h2>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="javascript/focus.js"></script>
+        <script>
+            const msg = document.getElementById("msg");
+
+            // Function to show message and auto-hide
+            function showMessage(text, bgColor, duration = 2000) {
+                msg.style.display = "flex";
+                msg.innerText = text;
+                msg.style.background = bgColor;
+                setTimeout(() => {
+                    msg.style.display = "none";
+                }, duration);
+            }
+            const fileInput = document.getElementById("scrsort");
+            const uploadBox = document.getElementById("upload");
+            // Drag & Drop
+            uploadBox.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                uploadBox.style.border = "2px dashed cyan"; // highlight when dragging
+            });
+
+            uploadBox.addEventListener("dragleave", (e) => {
+                e.preventDefault();
+                uploadBox.style.border = "1px solid black"; // reset border
+            });
+
+            uploadBox.addEventListener("drop", (e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                handleFile(file);
+            });
+
+            fileInput.addEventListener("change", () => {
+                const file = fileInput.files[0];
+                handleFile(file);
+            });
+
+            function handleFile(file) {
+                if (!file) return;
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    showMessage("File too large. Maximum 5MB allowed.", "red");
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadBox.innerHTML = `
+            <img src="${e.target.result}">
+            <button class="removeBtn">×</button>
+        `;
+
+                    document.querySelector(".removeBtn").addEventListener("click", (event) => {
+                        event.preventDefault();
+                        uploadBox.innerHTML = "+";
+                        fileInput.value = "";
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+
+            const form = document.getElementById("complain");
+            async function isReallyOnline() {
+                try {
+                    const response = await fetch("https://www.google.com/favicon.ico", { method: "HEAD", mode: "no-cors" });
+                    return true; // request went through
+                } catch {
+                    return false; // request failed → no internet
+                }
+            }
+            const loader = document.getElementById("load");
+            form.addEventListener("submit", async function (e) {
+                e.preventDefault();
+                if (!navigator.onLine) {
+                    showMessage("No Internet Connection. Please try again!", "red");
+                    return;
+                }
+                showMessage("Sending Feedback.......", "green", 5000);
+                loader.style.display = "flex";
+                const data = new FormData(form);
+                try {
+                    const response = await fetch(form.action, {
+                        method: "POST",
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        body: data
+                        // Don't set headers - let browser handle Content-Type automatically
+                    });
+                    if (response.ok) {
+                        showMessage("Feedback Submitted Successfully!", "green", 5000);
+                        uploadBox.innerHTML = "+";
+                        form.reset();
+                    }
+                    else {
+                        showMessage("Server Error or low internet connection,Try Again!", "red");
+                    }
+                }
+                catch (error) {
+                    showMessage("Submission failed! Check your internet connection....", "red");
+                }
+                finally {
+                    loader.style.display = "none";
+                }
+            });
+        </script>
+
+</body>
+
+</html>

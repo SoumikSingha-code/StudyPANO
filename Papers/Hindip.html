@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="../paper.css">
+    <title> Hindi Papers</title>
+</head>
+
+<body data-subject="Hindip">
+    <p>Time spent today: <span id="timeSpent">0 min 0 sec</span></p>
+    <p id="currentTime"></p>
+    <h1>Select or Search Papers</h1>
+    <div class="srch">
+        <input type="text" id="searchbar" placeholder="Search Papers" onkeyup="Searchcontent()">
+    </div>
+    <br><br>
+    <div class="lin"></div>
+    <br>
+    <div class="msgc">
+        <div id="msg"></div>
+    </div>
+    <div class="ct">
+        <div class="op"> <a href="../pdfs/Hindi/ICSE-Hindi-Pupil-Analysis.pdf" target="_blank">ICSE-Hindi-Pupil-Analysis
+                -
+                2025</a></div>
+        <div class="op"> <a href="../pdfs/Hindi/Hindi papers 2020.pdf" target="_blank">Hindi Paper-PYQ-2020</a></div>
+        <div class="op"> <a href="../pdfs/Hindi/Hindi papers 2022.pdf" target="_blank">Hindi Pape-PYQ-2022</a></div>
+        <div class="op"> <a href="../pdfs/Hindi/Hindi papers 2023.pdf" target="_blank">Hindi Paper-PYQ-2023</a></div>
+        <div class="op"> <a href="../pdfs/Hindi/Hindi papers 2024.pdf" target="_blank">Hindi Paper-PYQ-2024</a></div>
+        <div class="op"> <a href="../pdfs/Hindi/Hindi papers 2025.pdf" target="_blank">Hindi Paper-PYQ-2025</a></div>
+    </div>
+    <br>
+    <div class="all">
+    </div>
+    <button class="upl" id="upl" type="button" onclick="upload()">Upload Paper ↑</button>
+    <div class="usp">
+        <form id="upload">
+            <h1 class="hd">
+                UPLOAD YOUR NOTES
+            </h1>
+            <button class="cl" onclick="uplp()">×</button>
+            <div class="in">
+                <div id="loginbtn">
+                    <div id="login" onclick="openlis()">Login</div>
+                </div>
+                <br><br>
+                Name:
+                <input class="inp" id="name" placeholder="Enter your name">
+                <br><br>
+                Email Id:
+                <input class="inp" id="email" placeholder="Enter your email id"><br><br>
+                File name:
+                <input class="inp" id="inf" placeholder="Enter the name of the file"><br><br>
+                <div class="uc"> Upload photo or pdf click on the button: <button type="button" class="ulp"
+                        onclick="optionshower()">+</button></div>
+                <br>
+                <div class="ul1">
+
+                    <br><br>
+                    <div id="option" class="hidden">
+                        <label for="fileUpload" id="camera" onclick="Camera()">Camera</label>
+                        <label for="fileUpload" id="file" onclick="Files()">Photo or file</label>
+                    </div>
+                    <input type="file" id="cameraUpload" name="camera" accept="image/*" capture="environment" hidden>
+                    <input type="file" id="fileUpload" name="file" accept="image/*,application/pdf"
+                        capture="environment" hidden>
+                </div>
+                <div id="ulpp">Picture or File Preview</div>
+                <div class="btn">
+                    <button class="sb" id="upbtn" type="button" onclick="uploadFile()">Submit</button>
+                </div>
+            </div>
+        </form>
+        <div id="optf">
+            <div id="optionlog">
+                <button class="cl st" onclick="remo()">×</button>
+                <buttton class="logop1" onclick="googleLogin()">Login with Google</buttton>
+                <buttton class="logop2" onclick="goToEmail()">Login with Email</buttton>
+            </div>
+        </div>
+    </div>
+    <div class="ld" id="load">
+        <div class="loader"></div>
+    </div>
+    <script type="module" src="../javascript/serveronnecter.js"> </script>
+    <script type="module" src="../javascript/connectemgg.js"></script>
+    <script src="../javascript/script.js"></script>
+</body>
+
+</html>

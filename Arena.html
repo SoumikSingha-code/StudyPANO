@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>StudyPANO Arena</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI';
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        button {
+            padding: 12px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #00c6ff;
+            color: black;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            font-size: large;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 15px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .correct {
+            background: #00ff88 !important
+        }
+
+        .wrong {
+            background: #ff4d4d !important
+        }
+
+        .bar {
+            height: 10px;
+            background: #555;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            background: #00ffcc;
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        #waiting {
+            font-size: 20px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5
+            }
+
+            50% {
+                opacity: 1
+            }
+
+            100% {
+                opacity: 0.5
+            }
+        }
+
+        #subject {
+            width: 200px;
+            height: 30px;
+            text-align: center;
+            font-size: large;
+            border: none;
+            border-radius: 3px;
+        }
+
+        #roomInput {
+            width: 200px;
+            height: 30px;
+            font-size: large;
+            border-radius: 6px;
+            border: none;
+            text-align: center;
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #64748b;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .head {
+            width: 100%;
+            animation: float 2.5s alternate infinite;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(-5px);
+            }
+
+            to {
+                transform: translateY(5px);
+            }
+        }
+
+        /* ✅ FIX: Removed hidden attribute from HTML; menu shown/hidden via .hidden class only */
+        #menu {
+            width: 90%;
+            background: transparent;
+            position: relative;
+            top: 50px;
+            backdrop-filter: blur(50px);
+            border: 1px solid #ffffff;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .Iv {
+            width: 80%;
+        }
+
+        #msg {
+            width: auto;
+            min-width: 350px;
+            height: 70px;
+            color: white;
+            position: fixed;
+            top: 5px;
+            border: none;
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: large;
+            border-radius: 10px;
+            padding: 0 16px;
+        }
+
+        .msgc {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .links {
+            width: 50%;
+            background: #00000020;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .link {
+            width: 80%;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: left;
+            padding: 10px;
+        }
+
+        #myScoreDisplay {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #00ffcc;
+            margin-bottom: 4px;
+        }
+
+        #opScoreDisplay {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ff9966;
+            margin-bottom: 4px;
+        }
+
+        @media (min-width:765px) {
+            .Iv {
+                width: 350px;
+            }
+
+            #menu {
+                width: 60%;
+                height: auto;
+                top: 50px;
+            }
+
+            #msg {
+                min-width: 550px;
+                height: 50px;
+            }
+        }
+
+        @media (min-width:1205px) {
+            .Iv {
+                width: 350px;
+            }
+
+            #menu {
+                width: 40%;
+                height: auto;
+                top: 50px;
+            }
+
+            #msg {
+                min-width: 550px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio autoplay loop>
+        <source src="Sounds/Battle1.mp3" type="audio/mpeg">
+    </audio>
+
+    <h1 class="head">⚔️ StudyPANO Battle Arena</h1>
+
+    <div class="msgc">
+        <div id="msg"></div>
+    </div>
+
+    <div id="auth">
+        <button onclick="login()" id="loginBtn">Login with Google</button>
+    </div>
+
+    <!-- ✅ FIX: Removed `hidden` HTML attribute. Use .hidden CSS class only for consistent toggle -->
+    <div id="menu" class="hidden">
+        <div class="subject">
+            <h2>Select Subject:</h2>
+        </div>
+        <p id="streakDisplay" style="margin:4px 0; font-size:1.1em;"></p>
+        <select id="subject">
+            <option value="math">MATH</option>
+            <option value="physics">PHYSICS</option>
+            <option value="chemistry">CHEMISTRY</option>
+            <option value="biology">BIOLOGY</option>
+            <option value="computer">COMPUTER</option>
+            <option value="history/civics">HISTORY/CIVICS</option>
+            <option value="geography">GEOGRAPHY</option>
+            <option value="hindi">HINDI</option> <!-- ✅ FIX: was "hindI" -->
+            <option value="literature">LITERATURE</option>
+            <option value="language">LANGUAGE</option>
+        </select>
+        <br>
+        <input id="roomInput" placeholder="Battle ID">
+        <button onclick="joinRoom()" type="button">Join Battle</button>
+        <button onclick="findMatch()" type="button" class="Iv">Start Battle With Random Opponent</button>
+        <button class="Iv" type="button" onclick="createRoom()">Invite Friend / Create Battle Field</button>
+        <br>
+        <div class="links">
+            <div class="link">
+                <p>Your Battle Id: <span id="roomIdText"></span></p>
+                <p>Link: <span id="inviteLink"></span></p>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <br><br><br>
+    <div id="waiting" class="hidden">🔍 Finding Opponent...<br><br><br><br><br></div>
+
+    <div id="game" class="hidden">
+        <div class="card">
+            <div id="opScoreDisplay">Opponent: 0 pts</div>
+            <div>Opponent Progress</div>
+            <div class="bar">
+                <div id="opBar" class="fill"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 id="question"></h3>
+            <div id="options"></div>
+            <p>⏱ <span id="timer"></span></p>
+        </div>
+
+        <div class="card">
+            <div id="myScoreDisplay">You: 0 pts</div>
+            <div>Your Progress</div>
+            <div class="bar">
+                <div id="myBar" class="fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="result" class="hidden">
+        <h2 id="resultText"></h2>
+        <p id="reward"></p>
+        <button onclick="playAgain()">Play Again</button>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <!-- Non-module script for global helpers -->
+    <script>
+        const msg = document.getElementById("msg");
+
+        function showMessage(text, bgColor, duration = 2000) {
+            msg.style.display = "flex";
+            msg.innerText = text;
+            msg.style.background = bgColor;
+            clearTimeout(msg._timeout);
+            msg._timeout = setTimeout(() => {
+                msg.style.display = "none";
+            }, duration);
+        }
+
+        const audio = document.querySelector("audio");
+        document.addEventListener("click", () => { audio.muted = false; audio.play(); }, { once: true });
+        document.addEventListener("touchstart", () => { audio.muted = false; audio.play(); }, { once: true });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import {
+            getAuth, GoogleAuthProvider,
+            signInWithPopup, onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDnqF2BRNKNpfQWsDsveNOHsJaFqep1wcY",
+            authDomain: "studypano-8fa02.firebaseapp.com",
+            projectId: "studypano-8fa02",
+            storageBucket: "studypano-8fa02.firebasestorage.app",
+            messagingSenderId: "611559409149",
+            appId: "1:611559409149:web:c1180ec801d07f68100594"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // ===== DOM REFS =====
+        const menuEl = document.getElementById("menu");
+        const waitingEl = document.getElementById("waiting");
+        const gameEl = document.getElementById("game");
+        const resultEl = document.getElementById("result");
+        const authEl = document.getElementById("auth");
+
+        // ===== STATE =====
+        let socket, user, room;
+        let startTime = 0;
+        let timerInterval;
+        let myScore = 0;
+        let opScore = 0;
+        // ✅ Total questions per game (matches backend QUESTIONS array length = 2 per subject)
+        const TOTAL_Q = 2;
+        let xp = 0;
+        let streak = 0;
+        let answered = false; // guard: prevent double submits client-side
+
+        // ===== AUTH =====
+        window.login = async () => {
+            const provider = new GoogleAuthProvider();
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (e) {
+                showMessage("Login failed: " + e.message, "red", 4000);
+            }
+        };
+
+        onAuthStateChanged(auth, u => {
+            if (u) {
+                user = u;
+                authEl.style.display = "none";
+                menuEl.classList.remove("hidden");
+                loadLocalStreak(); // ✅ Show cached streak immediately on login
+                connect();
+            } else {
+                authEl.style.display = "block";
+                menuEl.classList.add("hidden");
+            }
+        });
+
+        // ===== SOCKET =====
+        async function connect() {
+            const token = await user.getIdToken();
+            socket = io("http://localhost:3000", {
+                auth: { token },
+                reconnection: true,
+                reconnectionAttempts: 10
+            });
+            registerEvents();
+        }
+
+        // ===== MENU ACTIONS =====
+        window.findMatch = () => {
+            menuEl.classList.add("hidden");
+            waitingEl.classList.remove("hidden");
+            socket.emit("findMatch", {
+                subject: document.getElementById("subject").value
+                // ✅ .toLowerCase() removed — value is already lowercase in the HTML
+            });
+        };
+
+        window.joinRoom = () => {
+            const roomId = document.getElementById("roomInput").value.trim();
+            if (!roomId) return showMessage("Enter a Battle ID first!", "red");
+            room = roomId;
+            socket.emit("joinRoom", { roomId });
+        };
+
+        window.createRoom = () => {
+            const subject = document.getElementById("subject").value;
+            socket.emit("createRoom", { subject });
+            socket.once("roomCreated", ({ roomId, inviteLink }) => {
+                room = roomId;
+                document.getElementById("roomIdText").innerText = roomId;
+                document.getElementById("inviteLink").innerText = inviteLink;
+                showMessage("Battle Created! Share the ID or link.", "green", 4000);
+            });
+        };
+
+        // ===== LOCAL STREAK DISPLAY =====
+        // Reads localStorage and checks the 2-day rule client-side too.
+        // Server is the source of truth on game end; this just shows a cached value on load.
+        function loadLocalStreak() {
+            const el = document.getElementById("streakDisplay");
+            try {
+                const raw = localStorage.getItem("streakData");
+                if (!raw) { el.innerText = "🔥 Streak: 0"; return; }
+
+                const { streak, lastPlayed } = JSON.parse(raw);
+                const today = new Date().toISOString().slice(0, 10);
+                const last = new Date(lastPlayed);
+                const diffDays = Math.floor((new Date() - last) / (1000 * 60 * 60 * 24));
+
+                if (diffDays > 2) {
+                    // Expired locally — reset display and clear storage
+                    localStorage.removeItem("streakData");
+                    el.innerText = "🔥 Streak: 0";
+                } else {
+                    el.innerText = "🔥 Streak: " + streak;
+                }
+            } catch {
+                el.innerText = "🔥 Streak: 0";
+            }
+        }
+
+        window.playAgain = () => {
+            myScore = 0;
+            opScore = 0;
+            room = null;
+            answered = false;
+            resultEl.classList.add("hidden");
+            menuEl.classList.remove("hidden");
+            updateScoreDisplays();
+            loadLocalStreak(); // ✅ Refresh streak display
+        };
+
+        // ===== HELPERS =====
+        function updateScoreDisplays() {
+            document.getElementById("myScoreDisplay").innerText = "You: " + myScore + " pts";
+            document.getElementById("opScoreDisplay").innerText = "Opponent: " + opScore + " pts";
+        }
+
+        function updateMyBar() {
+            const pct = Math.min((myScore / (TOTAL_Q * 10)) * 100, 100);
+            document.getElementById("myBar").style.width = pct + "%";
+        }
+
+        function updateOpBar() {
+            const pct = Math.min((opScore / (TOTAL_Q * 10)) * 100, 100);
+            document.getElementById("opBar").style.width = pct + "%";
+        }
+
+        function startTimer(fromTime) {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                const t = Math.floor((Date.now() - fromTime) / 1000);
+                document.getElementById("timer").innerText = t + "s";
+            }, 1000);
+        }
+
+        function disableOptions() {
+            document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+        }
+
+        // ===== EVENTS =====
+        function registerEvents() {
+
+            socket.on("matchFound", d => {
+                if (d.roomId) room = d.roomId;
+                showMessage("Match Found! You vs " + d.vs + " — Starting...", "green", 3000);
+            });
+
+            socket.on("waiting", () => {
+                showMessage("Finding opponent...", "#ffaa00", 5000);
+            });
+
+            // ✅ FIX: use menuEl variable (was `menu` — ReferenceError)
+            socket.on("startGame", () => {
+                waitingEl.classList.add("hidden");
+                menuEl.classList.add("hidden");
+                gameEl.classList.remove("hidden");
+                myScore = 0;
+                opScore = 0;
+                answered = false;
+                updateScoreDisplays();
+                updateMyBar();
+                updateOpBar();
+            });
+
+            socket.on("newQuestion", d => {
+                answered = false;  // reset per question
+                startTime = d.serverTime;
+                startTimer(startTime);
+
+                document.getElementById("question").innerText = d.q;
+
+                const optionsDiv = document.getElementById("options");
+                optionsDiv.innerHTML = "";
+
+                d.options.forEach((op, i) => {
+                    const btn = document.createElement("button");
+                    btn.innerText = op;
+                    btn.onclick = () => submitAnswer(i, btn);
+                    optionsDiv.appendChild(btn);
+                });
+            });
+
+            // ✅ FIX: answerResult now also updates myScore bar
+            socket.on("answerResult", ({ correctIndex, myScore: serverScore }) => {
+                disableOptions();
+                const btns = document.querySelectorAll("#options button");
+                btns.forEach((b, i) => {
+                    b.classList.add(i === correctIndex ? "correct" : "wrong");
+                });
+
+                // ✅ Update my score from server authoritative value if provided,
+                //    otherwise compute locally from button index
+                if (typeof serverScore === "number") {
+                    myScore = serverScore;
+                }
+                updateMyBar();
+                updateScoreDisplays();
+            });
+
+            // ✅ progress event (emitted by backend if you add it — safe to keep)
+            socket.on("progress", ({ my, op }) => {
+                document.getElementById("myBar").style.width = my + "%";
+                document.getElementById("opBar").style.width = op + "%";
+            });
+
+            socket.on("opponentThinking", t => {
+                if (t) showMessage("Opponent is thinking...", "#999", 3000);
+            });
+
+            // ✅ opponentUpdate — update op score + bar
+            socket.on("opponentUpdate", d => {
+                opScore = d.score;
+                updateOpBar();
+                updateScoreDisplays();
+            });
+
+            // ✅ GAME OVER — backend sends { scores, streak } (singular, this player's own streak)
+            socket.on("gameOver", ({ scores, streak: serverStreak }) => {
+                clearInterval(timerInterval);
+                gameEl.classList.add("hidden");
+                resultEl.classList.remove("hidden");
+
+                const finalMyScore = scores[user.uid] || 0;
+                const opKey = Object.keys(scores).find(k => k !== user.uid);
+                const finalOpScore = opKey ? scores[opKey] : 0;
+
+                // ✅ serverStreak is already this player's number — no map lookup needed
+                const streak = serverStreak || 0;
+
+                // Save to localStorage so menu shows it on next load
+                localStorage.setItem("streakData", JSON.stringify({
+                    streak,
+                    lastPlayed: new Date().toISOString().slice(0, 10)
+                }));
+
+                xp += finalMyScore;
+
+                const won = finalMyScore > finalOpScore;
+                const tie = finalMyScore === finalOpScore;
+
+                document.getElementById("resultText").innerText =
+                    (won ? "🏆 You Win!" : tie ? "🤝 It's a Tie!" : "😔 You Lost") +
+                    "  —  " + finalMyScore + " vs " + finalOpScore;
+
+                document.getElementById("reward").innerText =
+                    "XP +" + finalMyScore + " | Streak 🔥 " + streak;
+
+                loadLocalStreak();
+            });
+
+            // ✅ RECONNECT
+            socket.on("connect", () => console.log("Socket connected"));
+
+            socket.on("reconnected", ({ roomId, room: roomData }) => {
+                if (!roomId || !roomData) return;
+                room = roomId;
+
+                if (roomData.currentQ > 0) {
+                    menuEl.classList.add("hidden");
+                    waitingEl.classList.add("hidden");
+                    gameEl.classList.remove("hidden");
+                    // ✅ Request current game state from server
+                    socket.emit("getGameState", { roomId });
+                }
+            });
+
+            // ✅ gameState — handles reconnect question re-render
+            socket.on("gameState", data => {
+                const { question, options, answered: answeredMap, scores, currentQ, totalQuestions, serverTime } = data;
+
+                startTime = serverTime || Date.now();
+                startTimer(startTime);
+
+                document.getElementById("question").innerText = question;
+                const optionsDiv = document.getElementById("options");
+                optionsDiv.innerHTML = "";
+
+                const alreadyAnswered = !!(answeredMap && answeredMap[user.uid]);
+
+                options.forEach((op, i) => {
+                    const btn = document.createElement("button");
+                    btn.innerText = op;
+                    btn.onclick = () => submitAnswer(i, btn);
+                    if (alreadyAnswered) btn.disabled = true;
+                    optionsDiv.appendChild(btn);
+                });
+
+                const total = totalQuestions || TOTAL_Q;
+                myScore = scores[user.uid] || 0;
+                const pct = Math.min((myScore / (total * 10)) * 100, 100);
+                document.getElementById("myBar").style.width = pct + "%";
+                updateScoreDisplays();
+            });
+
+            socket.on("error", msg => showMessage("Error: " + msg, "red", 3000));
+        }
+
+        // ===== ANSWER =====
+        function submitAnswer(i, btn) {
+            // ✅ FIX: Client-side guard to prevent double emits
+            if (answered) return;
+            if (!room) return showMessage("Not connected to a battle!", "red");
+
+            answered = true;
+            disableOptions();
+
+            socket.emit("answer", {
+                roomId: room,
+                answer: i,
+                clientTime: Date.now()
+            });
+
+            btn.style.transform = "scale(0.9)";
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,687 @@
+ body {
+     background-color: #0f172a;
+     overflow-x: hidden;
+     overflow-y: auto;
+     color: white;
+     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+ }
+
+ html {
+     scroll-behavior: smooth;
+ }
+
+ button {
+     border: none;
+ }
+
+ .op {
+     width: 95%;
+     height: 65px;
+     border: 1px solid white;
+     border-radius: 12px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
+     backdrop-filter: blur(10px);
+     background: linear-gradient(to top right, indigo, blue, purple);
+     transition: all 0.2s ease-in-out;
+     font-size: 20px;
+     text-align: center;
+ }
+
+ .op:hover {
+     width: 97%;
+     box-shadow: 0 0 15px cyan;
+     font-size: 21px;
+     filter: brightness(1.1);
+ }
+
+ a {
+     color: white;
+     text-decoration: none;
+ }
+
+ .ct {
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-flow: column;
+     flex-wrap: wrap;
+     gap: 20px;
+ }
+
+ .all {
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-flow: column;
+     flex-wrap: wrap;
+     gap: 20px;
+ }
+
+ .lin {
+     width: 100%;
+     height: 0.3px;
+     background-color: white;
+ }
+
+ h1 {
+     text-align: center;
+     font-family: 'Times New Roman', Times, serif;
+     font-weight: 800;
+ }
+
+ body::-webkit-scrollbar {
+     width: 8px;
+ }
+
+ body::-webkit-scrollbar-track {
+     background: #1e293b;
+     border-radius: 10px;
+ }
+
+ body::-webkit-scrollbar-thumb {
+     background: #64748b;
+     border-radius: 10px;
+ }
+
+ body::-webkit-scrollbar-thumb:hover {
+     background: #94a3b8;
+ }
+
+ html {
+     scroll-behavior: smooth;
+ }
+
+ .srch {
+     width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ #searchbar {
+     text-align: center;
+     border: 1px solid white;
+     width: 100%;
+     height: 50px;
+     border-radius: 20px;
+     color: white;
+     background: linear-gradient(to right, red, purple, blue);
+     transition: all 0.2s ease-in-out;
+     font-size: larger;
+ }
+
+ #searchbar:hover {
+     height: 55px;
+     box-shadow: 0 0 15px white;
+     filter: brightness(1.1);
+ }
+
+ #searchbar::placeholder {
+     color: white;
+ }
+
+ .nf {
+     font-size: 40px;
+     text-align: center;
+     display: none;
+
+ }
+
+ .upl {
+     width: 200px;
+     height: 55px;
+     background: linear-gradient(to right, blue, purple);
+     font-size: 20px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 20px;
+     position: fixed;
+     bottom: 80px;
+     right: 20px;
+     transition: all 0.3s ease;
+     backdrop-filter: blur(10px);
+     color: white;
+     border: none;
+     z-index: 999;
+ }
+
+ .upl:hover {
+     width: 210px;
+     height: 60px;
+     filter: brightness(1.5);
+     box-shadow: 0 0 10px whitesmoke;
+ }
+
+ .hide {
+     opacity: 0;
+     right: -90px;
+ }
+
+ #upload {
+     width: 95%;
+     height: 100%;
+     background: linear-gradient(to top right, blue, purple, red);
+     position: fixed;
+     transform: translateX(150%) translateY(-105px);
+     border-radius: 1px;
+     top: 110px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-wrap: wrap;
+     overflow-y: auto;
+     overflow-x: hidden;
+     transition: all 4s ease;
+ }
+
+ #upload::-webkit-scrollbar {
+     width: 8px;
+     height: 90%;
+ }
+
+ #upload::-webkit-scrollbar-track {
+     background: #1e293b;
+
+ }
+
+ #upload::-webkit-scrollbar-thumb {
+     background: whitesmoke;
+ }
+
+ #upload::-webkit-scrollbar-thumb:hover {
+     background: white;
+ }
+
+ .in {
+     width: 60%;
+ }
+
+
+ #upload.show {
+     transform: translateX(0%) translateY(-105px);
+     transition: all 0.9s ease;
+ }
+
+ .usp {
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-wrap: wrap;
+ }
+
+ .cl {
+     color: #fff;
+     background: none;
+     border: none;
+     font-size: 30px;
+     position: absolute;
+     right: 10px;
+     top: 11px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .st {
+     color: #bbb;
+     transition: all 0.2s ease;
+ }
+
+ .st:hover {
+     color: #fff;
+ }
+
+ .inp {
+     width: 100%;
+     height: 40px;
+     border: none;
+     border-radius: 10px;
+     display: flex;
+     align-items: center;
+     text-align: center;
+ }
+
+ .inp:hover {
+     filter: brightness(1.0);
+     box-shadow: 0 0 10px plum;
+ }
+
+ .ul {
+     width: 100%;
+     background: white;
+     height: 250px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: black;
+     border-radius: 20px;
+     font-size: 40px;
+ }
+
+ .ulp {
+     width: 40px;
+     background: white;
+     height: 40px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: black;
+     border-radius: 50%;
+     font-size: 40px;
+     border: none;
+ }
+
+ .uc {
+     display: flex;
+     gap: 10px;
+     align-items: center;
+     justify-content: left;
+ }
+
+ #ulpp {
+     width: 100%;
+     background: white;
+     height: 400px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: black;
+     border-radius: 20px;
+     font-size: 20px;
+     border: none;
+     position: relative;
+     top: -200px;
+     text-align: center;
+ }
+
+ .btn {
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     position: relative;
+     top: -150px;
+ }
+
+ .sb {
+     width: 100px;
+     height: 40px;
+     background: linear-gradient(to right, whitesmoke, white);
+     font-size: 16px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 20px;
+     border: none;
+     color: white;
+     cursor: pointer;
+     color: black;
+     transition: all 0.3s ease;
+ }
+
+ .sb:hover {
+     width: 110px;
+     height: 45px;
+     filter: brightness(1.1);
+     box-shadow: 0 0 10px whitesmoke;
+ }
+
+ #ulpp img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     position: relative;
+     left: 10px;
+     border-radius: 20px;
+     border: none;
+ }
+
+ #ulpp iframe {
+     width: 140%;
+     height: 100%;
+     border: none;
+     border-radius: 0px;
+     position: relative;
+     border-radius: 20px;
+     top: -1px;
+ }
+
+ .removeBtn {
+     position: relative;
+     top: -175px;
+     right: 20px;
+     background: red;
+     color: white;
+     border: none;
+     border-radius: 50%;
+     cursor: pointer;
+     width: 22px;
+     height: 22px;
+     font-size: 14px;
+     z-index: 9999;
+ }
+
+ .removeBtn:hover {
+     width: 22px;
+     height: 22px;
+ }
+
+ #msg {
+     width: auto;
+     min-width: 450px;
+     height: 50px;
+     color: white;
+     position: fixed;
+     top: 10px;
+     border: none;
+     border-radius: 1px;
+     z-index: 9999999999;
+     display: none;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .msgc {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ #option {
+     background: white;
+     width: 200px;
+     height: 200px;
+     color: black;
+     position: relative;
+     top: -15dvh;
+     left: 6dvh;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     gap: 10px;
+     border-radius: 12px;
+     padding: 10px;
+     box-shadow: none;
+     backdrop-filter: blur(10px);
+     border: 1px solid black;
+     z-index: 9999;
+     transition: all 0.6s ease;
+ }
+
+ .hidden {
+     opacity: 0;
+ }
+
+ #camera,
+ #file {
+     text-align: center;
+     background: linear-gradient(to left bottom, blue, purple);
+     width: 100%;
+     color: white;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: larger;
+     border-radius: 9px;
+     transition: all 0.3s ease;
+     box-shadow: 0 0 3px whitesmoke;
+     backdrop-filter: blur(10px);
+ }
+
+ #camera:hover {
+     filter: brightness(1.5);
+ }
+
+ #file:hover {
+     filter: brightness(1.5);
+ }
+
+ .show {
+     opacity: 1;
+ }
+
+ .delbt {
+     background: none;
+     color: #bbb;
+     border: none;
+     border-radius: 50%;
+     cursor: pointer;
+     width: 22px;
+     height: 22px;
+     font-size: 14px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     position: absolute;
+     right: 30px;
+ }
+
+ .delbt:hover {
+     color: #ffe;
+     font-size: 15px;
+ }
+
+ #login {
+     z-index: 999999;
+     width: 100px;
+     background: transparent;
+     position: relative;
+     top: 5px;
+     left: 50px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border: 2px solid white;
+     border-radius: 100px;
+     font-size: 25px;
+     width: 100px;
+     height: 40px;
+     transition: all 0.2s ease-in-out;
+     cursor: pointer;
+ }
+
+ #login:hover {
+     background-color: white;
+     color: black;
+ }
+
+ #loginbtn {
+     width: 100%;
+     height: 40px;
+     display: flex;
+     align-items: center;
+     justify-content: right;
+ }
+
+ #optf {
+     display: none;
+     align-items: center;
+     justify-content: center;
+     position: fixed;
+     inset: 0;
+     z-index: 1000000000;
+     backdrop-filter: blur(10px);
+ }
+
+ #optf.sh {
+     display: flex;
+
+ }
+
+ #optionlog {
+     width: 100%;
+     height: 100%;
+     background: #231f1f;
+     position: absolute;
+     transform: translateY(700px);
+     position: absolute;
+     display: flex;
+     justify-content: center;
+     flex-wrap: wrap;
+     text-align: center;
+ }
+
+ #optionlog.show {
+     transform: translateY(380px);
+ }
+
+ .logop1 {
+     width: 90%;
+     height: 100px;
+     background: #121212;
+     color: #e0e0e0;
+     position: absolute;
+     top: 80px;
+     border-radius: 10px;
+     font-size: 30px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     transition: all 0.6s ease;
+ }
+
+
+ .logop2 {
+     width: 90%;
+     height: 100px;
+     background: #121212;
+     color: #e0e0e0;
+     position: absolute;
+     top: 200px;
+     border-radius: 10px;
+     font-size: 30px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     transition: all 0.6s ease;
+ }
+
+ .logop1:hover,
+ .logop2:hover {
+     width: 93%;
+     box-shadow: 0 0 10px white;
+     font-size: 31px;
+ }
+
+ .ld {
+     position: fixed;
+     inset: 0;
+     display: none;
+     align-items: center;
+     justify-content: center;
+     background: transparent;
+     backdrop-filter: blur(10px);
+     z-index: 1000000;
+ }
+
+ .loader {
+     width: 60px;
+     height: 60px;
+     border: 8px solid #bbb;
+     border-top: 8px solid #3498db;
+     border-radius: 50%;
+     animation: spin 1s linear infinite;
+     position: fixed;
+     z-index: 10000000;
+ }
+
+ @keyframes spin {
+     0% {
+         transform: rotate(0deg);
+     }
+
+     100% {
+         transform: rotate(360deg);
+     }
+ }
+
+ .top {
+     width: 95%;
+     text-align: left;
+     font-size: 30px;
+ }
+
+ @media (min-width:765px) {
+     .op {
+         width: 70%;
+         font-size: 25px;
+     }
+
+     .op:hover {
+         width: 71%;
+         font-size: 26px;
+     }
+
+     #searchbar {
+         width: 30%;
+     }
+
+     #searchbar:hover {
+         height: 55px;
+         box-shadow: 0 0 20px white;
+     }
+
+     #upload {
+         width: 70%;
+         height: 97%;
+
+     }
+
+     #ulpp {
+         font-size: 30px;
+     }
+
+     #optionlog {
+         width: 85%;
+     }
+
+     #optionlog.show {
+         transform: translateY(350px);
+     }
+ }
+
+ @media (min-width:1025px) {
+     .op {
+         width: 60%;
+         font-size: 29px;
+     }
+
+     .op:hover {
+         width: 61%;
+         font-size: 30px;
+     }
+
+     #searchbar {
+         width: 30%;
+     }
+
+     #searchbar:hover {
+         height: 55px;
+         box-shadow: 0 0 20px white;
+     }
+
+     #upload {
+         width: 60%;
+         height: 97%;
+     }
+
+     #ulpp {
+         font-size: 30px;
+     }
+
+     #optionlog {
+         width: 75%;
+     }
+
+     #optionlog.show {
+         transform: translateY(350px);
+     }
+ }
