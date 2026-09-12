@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="../paper.css">
+    <style>
+        #vid {
+            position: absolute;
+            right: 10px;
+            font-size: 20px;
+            width: 100px;
+            height: 50px;
+            transition: all 0.2s ease-in-out;
+            background: linear-gradient(to top right, indigo, blue, purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+
+        }
+
+        #vidsh {
+            content: "";
+            position: fixed;
+            inset: 0;
+            opacity: 0;
+            z-index: 1000000000;
+            background-color: azure;
+            color: black;
+            transition: all 0.5s ease-in-out;
+            right: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #closeit {
+            position: absolute;
+            right: 0px;
+            color: black;
+            background-color: red;
+            font-size: 30px;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        #closeit:hover {
+            font-size: 35px;
+        }
+
+        #videoplay {
+            position: fixed;
+            right: 100%;
+            transition: all 0.5s ease-in-out;
+        }
+    </style>
+    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+
+    <!-- Quality selector plugin -->
+    <link href="https://cdn.jsdelivr.net/npm/videojs-resolution-switcher@0.4.2/lib/videojs-resolution-switcher.css"
+        rel="stylesheet">
+    <script
+        src="https://cdn.jsdelivr.net/npm/videojs-resolution-switcher@0.4.2/lib/videojs-resolution-switcher.js"></script>
+    <title> Literature Notes</title>
+</head>
+
+<body data-subject="Literaturen">
+    <div class="vidctn">
+        <div id="vidsh">
+            <button id="closeit" onclick="removeit()">×</button>
+            <video width="300px" height="300px" controls playsinline id="videoplay">
+                Julius ceaser movie
+                <source src=" ../Julius_Caesar_Movie.mp4" type="video/mp4">Your brouser doesnot support the video tag.
+
+            </video>
+        </div>
+    </div>
+    <div id="vid" onclick="showmovie()">Videos 📽️</div>
+    <p>Time spent today: <span id="timeSpent">0 min 0 sec</span></p>
+    <p id="currentTime"></p>
+    <h1>Select or Search Papers</h1>
+    <div class="srch">
+        <input type="text" id="searchbar" placeholder="Search Papers" onkeyup="Searchcontent()">
+    </div>
+    <br><br>
+    <div class="lin"></div>
+    <br>
+    <div class="msgc">
+        <div id="msg"></div>
+    </div>
+    <div class="ct">
+        <h1> No notes available</h1>
+    </div>
+    <br>
+    <div class="all">
+    </div>
+    <button class="upl" id="upl" onclick="upload()">Upload Paper ↑</button>
+    <div class="usp">
+        <form id="upload">
+            <h1 class="hd">
+                UPLOAD YOUR PAPERS
+            </h1>
+            <button class="cl" onclick="uplp()">×</button>
+            <div class="in">
+                <div id="loginbtn">
+                    <div id="login" onclick="openlis()">Login</div>
+                </div>
+                <br><br>
+                Name:
+                <input class="inp" id="name" placeholder="Enter your name">
+                <br><br>
+                Email Id:
+                <input class="inp" id="email" placeholder="Enter your email id"><br><br>
+                File name:
+                <input class="inp" id="inf" placeholder="Enter the name of the file"><br><br>
+                <div class="uc"> Upload photo or pdf click on the button: <button type="button" class="ulp"
+                        onclick="optionshower()">+</button></div>
+                <br>
+                <div class="ul1">
+
+                    <br><br>
+                    <div id="option" class="hidden">
+                        <label for="fileUpload" id="camera">Camera</label>
+                        <label for="fileUpload" id="file">Photo or file</label>
+                    </div>
+                    <input type="file" id="cameraUpload" name="camera" accept="image/*" capture="environment" hidden>
+                    <input type="file" id="fileUpload" name="file" accept="image/*,application/pdf"
+                        capture="environment" hidden>
+                </div>
+                <div id="ulpp">Picture or File Preview</div>
+                <div class="btn">
+                    <button class="sb" id="upbtn" type="button" onclick="uploadFile()">Submit</button>
+                </div>
+            </div>
+        </form>
+        <div id="optf">
+            <div id="optionlog">
+                <button class="cl" onclick="remo()">×</button>
+                <buttton class="logop1" onclick="googleLogin()">Login with Google</buttton>
+                <buttton class="logop2" onclick="goToEmail()">Login with Email</buttton>
+            </div>
+        </div>
+    </div>
+    <div class="ld" id="load">
+        <div class="loader"></div>
+    </div>
+    <script type="module" src="../javascript/serverconnecter.js"> </script>
+    <script type="module" src="../javascript/connectemgg.js"></script>
+    <script src="../javascript/script.js"></script>
+    <script>
+        function showmovie() {
+            let movie = document.getElementById("vid");
+            let moviesh = document.getElementById("vidsh");
+            moviesh.style.right = "0%";
+            moviesh.style.opacity = "1";
+            let videoplay = document.getElementById("videoplay");
+            let width = window.innerWidth;
+            if (width < 480) {
+                // Mobile
+                videoplay.style.right = "20%";
+
+            } else if (width < 768) {
+                videoplay.style.right = "20%";
+
+            } else {
+                // Desktop
+                videoplay.style.right = "20%";
+            }
+        }
+        function removeit() {
+            let moviesh = document.getElementById("vidsh");
+            moviesh.style.right = "100%";
+            moviesh.style.opacity = "0";
+            let videoplay = document.getElementById("videoplay");
+            videoplay.style.right = "100%";
+        }
+    </script>
+</body>
+
+</html>
