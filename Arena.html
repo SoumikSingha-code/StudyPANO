@@ -431,7 +431,7 @@
         // ===== SOCKET =====
         async function connect() {
             const token = await user.getIdToken();
-            socket = io("http://localhost:3000", {
+            socket = io("https://studypano-backend-2.onrender.com", {
                 auth: { token },
                 reconnection: true,
                 reconnectionAttempts: 10
