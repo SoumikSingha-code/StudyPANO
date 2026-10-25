@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyPANO-Flashcard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 3D Perspective & Flip Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Scrollbar for Card Library */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2.5">
+                <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/30">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h1
+                    class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">
+                    FlashCard Master
+                </h1>
+            </div>
+
+            <div class="flex items-center gap-2 bg-slate-800/80 p-1 rounded-xl border border-slate-700/60">
+                <button id="tab-study-btn" onclick="switchTab('study')"
+                    class="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    Study Mode
+                </button>
+                <button id="tab-manage-btn" onclick="switchTab('manage')"
+                    class="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-400 hover:text-slate-200 flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Manage Cards
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 flex-1 flex flex-col justify-center">
+
+        <!-- ================= STUDY TAB ================= -->
+        <section id="study-tab" class="flex flex-col items-center gap-6 my-auto py-4">
+
+            <!-- Category Selector & Progress -->
+            <div
+                class="w-full max-w-md flex justify-between items-center bg-slate-900/90 p-3 rounded-2xl border border-slate-800 shadow-lg">
+                <select id="deck-selector" onchange="changeCategory()"
+                    class="bg-slate-800 text-slate-200 text-xs font-medium rounded-xl p-2.5 border border-slate-700/70 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+                    <!-- Dynamic Deck Options -->
+                </select>
+                <div class="text-xs text-slate-400 font-medium px-2">
+                    Card <span id="card-index" class="text-indigo-400 font-bold text-sm">1</span> of <span
+                        id="card-total" class="text-slate-300 font-semibold">1</span>
+                </div>
+            </div>
+
+            <!-- Flashcard 3D Wrapper -->
+            <div class="perspective-1000 w-full max-w-md h-72 sm:h-80 cursor-pointer select-none group"
+                onclick="flipCard()">
+                <div id="flashcard"
+                    class="relative w-full h-full transform-style-3d transition-transform duration-500 ease-out shadow-2xl rounded-2xl">
+
+                    <!-- Front Face -->
+                    <div
+                        class="absolute inset-0 w-full h-full backface-hidden bg-slate-900 rounded-2xl p-6 flex flex-col justify-between items-center border border-slate-800 shadow-inner group-hover:border-slate-700 transition-colors">
+                        <div
+                            class="w-full flex justify-between items-center text-[10px] uppercase tracking-wider font-semibold text-slate-400">
+                            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/50">Question</span>
+                            <span class="text-indigo-400 flex items-center gap-1">
+                                Click to flip
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="my-auto text-center px-4">
+                            <p id="card-front-text"
+                                class="text-xl sm:text-2xl font-medium text-slate-100 leading-relaxed">
+                                Loading card...
+                            </p>
+                        </div>
+                        <div class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Front Side</div>
+                    </div>
+
+                    <!-- Back Face -->
+                    <div
+                        class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-b from-indigo-950/90 to-slate-900 rounded-2xl p-6 flex flex-col justify-between items-center border border-indigo-800/60 shadow-inner">
+                        <div
+                            class="w-full flex justify-between items-center text-[10px] uppercase tracking-wider font-semibold text-indigo-300">
+                            <span class="px-2 py-0.5 rounded bg-indigo-900/50 border border-indigo-700/50">Answer</span>
+                            <span class="text-indigo-300 flex items-center gap-1">
+                                Click to flip
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="my-auto text-center px-4">
+                            <p id="card-back-text"
+                                class="text-xl sm:text-2xl font-medium text-indigo-100 leading-relaxed">
+                                Loading answer...
+                            </p>
+                        </div>
+                        <div class="text-[10px] uppercase tracking-widest text-indigo-400/80 font-semibold">Back Side
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex items-center gap-3 w-full max-w-md justify-center">
+                <button onclick="prevCard()"
+                    class="flex-1 py-3 px-4 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:border-slate-700 active:scale-95 transition-all font-medium text-sm text-slate-200 shadow-md flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Previous
+                </button>
+
+                <button onclick="shuffleCards()"
+                    class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 hover:border-slate-700 active:scale-95 transition-all text-slate-400 hover:text-slate-200 shadow-md"
+                    title="Shuffle Deck">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </button>
+
+                <button onclick="nextCard()"
+                    class="flex-1 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 transition-all font-medium text-sm text-white shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-2">
+                    Next
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+
+        </section>
+
+        <!-- ================= MANAGE TAB ================= -->
+        <section id="manage-tab" class="hidden flex-col gap-6 max-w-xl mx-auto w-full py-4">
+
+            <!-- Create New Card Form -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl">
+                <h2 class="text-base font-semibold text-slate-100 mb-4 flex items-center gap-2">
+                    <span class="p-1.5 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </span>
+                    Add New Flashcard
+                </h2>
+                <form id="add-card-form" onsubmit="handleAddCard(event)" class="flex flex-col gap-4">
+                    <div>
+                        <label
+                            class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Category</label>
+                        <input type="text" id="input-category" placeholder="e.g., Geography, History" required
+                            class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Front
+                            (Question / Prompt)</label>
+                        <textarea id="input-question" rows="2" placeholder="Enter the question..." required
+                            class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Back
+                            (Answer / Definition)</label>
+                        <textarea id="input-answer" rows="2" placeholder="Enter the answer..." required
+                            class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition"></textarea>
+                    </div>
+                    <button type="submit"
+                        class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-xl transition shadow-lg shadow-indigo-600/20 mt-1">
+                        Save Card
+                    </button>
+                </form>
+            </div>
+            <br><br>
+            <!-- Existing Cards List -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-base font-semibold text-slate-100">Card Library</h2>
+                    <button onclick="resetDefaultCards()"
+                        class="text-xs text-rose-400 hover:text-rose-300 font-medium transition">
+                        Reset to Defaults
+                    </button>
+                </div>
+                <div id="cards-list" class="flex flex-col gap-2.5 max-h-72 overflow-y-auto pr-1">
+                    <!-- Cards populated by JS -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs text-slate-600 border-t border-slate-900">
+        © 2026 StudyPANO. All rights reserved.
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initial Default Decks
+        const defaultDecks = [
+            { id: 1, category: "History", question: "Formation of Muslim league", answer: "1906" },
+            { id: 2, category: "History", question: "The plan of Bengal partition was proposed by whom and when?", answer: "Lord Curzon in 1905." },
+            { id: 3, category: "History", question: "Formation of Indian National Congress?", answer: "1885" },
+            { id: 4, category: "Geography", question: "Which of the following area recieves rain from the North East Monsoon?", answer: "Coromandel coast." },
+            { id: 5, category: "Geography", question: "Which is the most Widespread soil of India?", answer: "Laterite soil." }
+        ];
+
+        // Global State Variables
+        let flashcards = [];
+        let currentCategoryCards = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        // Initialize App
+        window.onload = function () {
+            loadCardsFromStorage();
+            populateCategorySelector();
+            filterCardsByCategory();
+        };
+
+        // Local Storage Handling
+        function loadCardsFromStorage() {
+            const stored = localStorage.getItem("flashcard_data");
+            if (stored) {
+                flashcards = JSON.parse(stored);
+            } else {
+                flashcards = [...defaultDecks];
+                saveCardsToStorage();
+            }
+        }
+
+        function saveCardsToStorage() {
+            localStorage.setItem("flashcard_data", JSON.stringify(flashcards));
+        }
+
+        function resetDefaultCards() {
+            if (confirm("Reset library to default flashcards?")) {
+                flashcards = [...defaultDecks];
+                saveCardsToStorage();
+                populateCategorySelector();
+                filterCardsByCategory();
+                renderManageList();
+            }
+        }
+
+        // Category Management
+        function populateCategorySelector() {
+            const selector = document.getElementById("deck-selector");
+            const categories = ["All Categories", ...new Set(flashcards.map(c => c.category))];
+
+            selector.innerHTML = categories.map(cat =>
+                `<option value="${cat}">${cat}</option>`
+            ).join('');
+        }
+
+        function changeCategory() {
+            filterCardsByCategory();
+        }
+
+        function filterCardsByCategory() {
+            const selectedCat = document.getElementById("deck-selector").value;
+            if (!selectedCat || selectedCat === "All Categories") {
+                currentCategoryCards = [...flashcards];
+            } else {
+                currentCategoryCards = flashcards.filter(c => c.category === selectedCat);
+            }
+
+            currentIndex = 0;
+            resetFlip();
+            displayCard();
+        }
+
+        // Card Display & Animation Logic
+        function displayCard() {
+            const cardFront = document.getElementById("card-front-text");
+            const cardBack = document.getElementById("card-back-text");
+            const cardIndex = document.getElementById("card-index");
+            const cardTotal = document.getElementById("card-total");
+
+            if (currentCategoryCards.length === 0) {
+                cardFront.innerText = "No cards available in this category.";
+                cardBack.innerText = "Add cards from the Manage Cards tab.";
+                cardIndex.innerText = "0";
+                cardTotal.innerText = "0";
+                return;
+            }
+
+            const current = currentCategoryCards[currentIndex];
+            cardFront.innerText = current.question;
+            cardBack.innerText = current.answer;
+            cardIndex.innerText = currentIndex + 1;
+            cardTotal.innerText = currentCategoryCards.length;
+        }
+
+        function flipCard() {
+            if (currentCategoryCards.length === 0) return;
+            const cardEl = document.getElementById("flashcard");
+            cardEl.classList.toggle("rotate-y-180");
+            isFlipped = !isFlipped;
+        }
+
+        function resetFlip() {
+            const cardEl = document.getElementById("flashcard");
+            cardEl.classList.remove("rotate-y-180");
+            isFlipped = false;
+        }
+
+        function nextCard() {
+            if (currentCategoryCards.length <= 1) return;
+            if (isFlipped) {
+                resetFlip();
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % currentCategoryCards.length;
+                    displayCard();
+                }, 200);
+            } else {
+                currentIndex = (currentIndex + 1) % currentCategoryCards.length;
+                displayCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentCategoryCards.length <= 1) return;
+            if (isFlipped) {
+                resetFlip();
+                setTimeout(() => {
+                    currentIndex = (currentIndex - 1 + currentCategoryCards.length) % currentCategoryCards.length;
+                    displayCard();
+                }, 200);
+            } else {
+                currentIndex = (currentIndex - 1 + currentCategoryCards.length) % currentCategoryCards.length;
+                displayCard();
+            }
+        }
+
+        function shuffleCards() {
+            if (currentCategoryCards.length <= 1) return;
+            if (isFlipped) resetFlip();
+
+            setTimeout(() => {
+                for (let i = currentCategoryCards.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [currentCategoryCards[i], currentCategoryCards[j]] = [currentCategoryCards[j], currentCategoryCards[i]];
+                }
+                currentIndex = 0;
+                displayCard();
+            }, isFlipped ? 200 : 0);
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            const studyTab = document.getElementById("study-tab");
+            const manageTab = document.getElementById("manage-tab");
+            const studyBtn = document.getElementById("tab-study-btn");
+            const manageBtn = document.getElementById("tab-manage-btn");
+
+            if (tab === 'study') {
+                studyTab.classList.remove("hidden");
+                manageTab.classList.add("hidden");
+
+                studyBtn.className = "px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 flex items-center gap-1.5";
+                manageBtn.className = "px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-400 hover:text-slate-200 flex items-center gap-1.5";
+
+                populateCategorySelector();
+                filterCardsByCategory();
+            } else {
+                studyTab.classList.add("hidden");
+                manageTab.classList.remove("hidden");
+
+                manageBtn.className = "px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 flex items-center gap-1.5";
+                studyBtn.className = "px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-slate-400 hover:text-slate-200 flex items-center gap-1.5";
+
+                renderManageList();
+            }
+        }
+
+        // Add & Delete Cards Management
+        function handleAddCard(event) {
+            event.preventDefault();
+            const category = document.getElementById("input-category").value.trim();
+            const question = document.getElementById("input-question").value.trim();
+            const answer = document.getElementById("input-answer").value.trim();
+
+            if (!category || !question || !answer) return;
+
+            const newCard = {
+                id: Date.now(),
+                category,
+                question,
+                answer
+            };
+
+            flashcards.push(newCard);
+            saveCardsToStorage();
+
+            // Reset form fields
+            document.getElementById("input-question").value = "";
+            document.getElementById("input-answer").value = "";
+
+            renderManageList();
+        }
+
+        function deleteCard(id) {
+            flashcards = flashcards.filter(c => c.id !== id);
+            saveCardsToStorage();
+            renderManageList();
+        }
+
+        function renderManageList() {
+            const container = document.getElementById("cards-list");
+            if (flashcards.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">No cards in your library.</p>`;
+                return;
+            }
+
+            container.innerHTML = flashcards.map(card => `
+                <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl flex justify-between items-center gap-3">
+                    <div class="overflow-hidden">
+                        <span class="inline-block px-2 py-0.5 text-[10px] bg-indigo-950 text-indigo-300 border border-indigo-800/40 rounded-md mb-1 font-medium">${escapeHtml(card.category)}</span>
+                        <p class="text-xs font-medium text-slate-200 truncate">${escapeHtml(card.question)}</p>
+                        <p class="text-[11px] text-slate-400 truncate">${escapeHtml(card.answer)}</p>
+                    </div>
+                    <button onclick="deleteCard(${card.id})" class="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 rounded-lg transition" title="Delete Card">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Helper Utility to Prevent XSS Injection
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function (m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        }
+    </script>
+</body>
+
+</html>

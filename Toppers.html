@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>StudyPANO-Toppers Arena</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+
+
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+            z-index: 10000;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #64748b;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            margin-top: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #3b82f6;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        table {
+            margin: auto;
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #444;
+        }
+
+        #del {
+            background: none;
+            color: rgb(248, 188, 188);
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        #del:hover {
+            color: #FF3131;
+        }
+
+        .note {
+            background-color: #4a2e77;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            bottom: 10px;
+            padding: 10px;
+            left: 0px;
+        }
+
+        #notice {
+            touch-action: pan-y;
+            user-select: none;
+            cursor: grab;
+            will-change: transform, opacity;
+            transition: transform 400ms cubic-bezier(.22, 1, .36, 1),
+                opacity 400ms ease;
+        }
+
+        #notice.dragging {
+            transition: none;
+            cursor: grabbing;
+        }
+
+        #notice.removing {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #psmess {
+            position: fixed;
+            inset: 0;
+            background: fixed;
+            position: fixed;
+            inset: 0;
+            background-color: #1e1e2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(80%);
+            opacity: 0;
+        }
+
+        .mmsg {
+            width: 70%;
+            height: 500px;
+            border: 2px solid #3e1b76;
+            border-radius: 20px;
+            box-shadow: 0px 0px 60px #491d8f, inset 0px 0px 90px #3c0a8d;
+            padding: 30px;
+            font-size: medium;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+
+        #revr {
+            background: none;
+            border: none;
+            font-size: 25px;
+            color: var(--muted);
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.2s;
+            user-select: none;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+
+        #revr:hover {
+            color: var(--text);
+        }
+
+        #timer {
+            font-size: 50px;
+        }
+
+        #msg {
+            width: auto;
+            min-width: 450px;
+            height: 50px;
+            color: white;
+            position: fixed;
+            top: 0px;
+            border: none;
+            z-index: 99999999999999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .msgc {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width:1025px) {
+            .note {
+                width: 100%;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="psmess">
+        <button id="revr" onclick="removee()">×</button>
+        <div class="mmsg">
+            <h2>Paused</h2>
+            <h3>Will resume in: <h1>
+                    <p id="timerb">
+                        02:00
+                    </p>
+                </h1>
+            </h3>
+            <h2>To do in time provided</h2>
+            <h5>1) Drink some amount of water <br>2) Go to washroom if you want.<br>3) Do not check you phones
+                notifications.<br>4) Keep your phones away.</h5>
+        </div>
+    </div>
+    <div class="container">
+
+        <h1>🏆 Toppers Arena</h1>
+        <h3><b> Compete with your self to make yourself better.</b> </h3>
+        <h1 id="timer">00:00</h1>
+
+        <button onclick="startStudy()">Start / Resume </button>
+        <button onclick="stopStudy()" id="stop">Pause</button>
+        <button onclick="end()" id="end">End</button>
+
+
+        <h2>Your Study Board</h2>
+        <br>
+        <table id="leaderboard">
+
+            <tr>
+                <th>Slno.</th>
+                <th>Minutes</th>
+                <th>Seconds</th>
+            </tr>
+
+        </table>
+
+    </div>
+    <div class="msgc">
+        <div id="msg"></div>
+    </div>
+    <div class="note" id="notice">Note: The table and your achievements are temporary it can't be retrived once gone or
+        refressed. So please handle carefully and keep Screenshorts or evidences. </div>
+
+    <script>
+        function showMessage(text, bgColor, duration = 2000) {
+            msg.style.display = "flex";
+            msg.innerText = text;
+            msg.style.background = bgColor;
+            setTimeout(() => {
+                msg.style.display = "none";
+            }, duration);
+        }
+        let studying = false;
+        let seconds = 0;
+        let minutes = 0;
+
+        let users = [];
+
+        function startStudy() {
+
+            studying = true;
+            showMessage("Timer started", "green");
+        }
+        let s = 120;
+        let countdown;
+        function stopStudy() {
+            if (seconds == 0) {
+                showMessage("Start the timer first!!!", "red");
+            }
+            else {
+                studying = false;
+
+                document.getElementById("psmess").style.transform = " translateY(0px)";
+                document.getElementById("psmess").style.transition = " 0.9s ease";
+                document.getElementById("psmess").style.opacity = "1";
+                let s = 120;
+                countdown = setInterval(() => {
+                    let min = Math.floor(s / 60);
+                    let sec = s % 60;
+                    document.getElementById("timerb").innerText =
+                        String(min).padStart(2, '0') + ":" + String(sec).padStart(2, '0');
+                    s--;
+                    if (s < 0) {
+                        clearInterval(countdown);
+                        document.getElementById("psmess").style.transform = " translateY(80%)";
+                        document.getElementById("psmess").style.transition = " 0.9s ease";
+                        document.getElementById("psmess").style.opacity = "0";
+                        startStudy();
+                    }
+                }, 1000);
+            }
+        }
+
+        function removee() {
+
+            document.getElementById("psmess").style.transform = " translateY(80%)";
+            document.getElementById("psmess").style.transition = " 0.9s ease";
+            document.getElementById("psmess").style.opacity = "0";
+            s = 120;
+            clearInterval(countdown);
+            startStudy();
+            showMessage("Timer started", "green");
+        }
+        function end() {
+
+            if (seconds == 0) {
+                showMessage("Start the timer first!!!", "red");
+            }
+            else {
+                const ask = confirm("Do you want to end session?");
+                if (ask) {
+                    studying = false;
+                    users.push({ seconds, minutes });
+                    document.getElementById("timer").innerText = "00:00";
+                    updateLeaderboard();
+                    seconds = 0;
+                    minutes = 0;
+                }
+            }
+        }
+        setInterval(() => {
+
+            if (studying) {
+
+                seconds++;
+
+                let mins = Math.floor(seconds / 60);
+                let secs = seconds % 60;
+
+                document.getElementById("timer").innerText =
+                    String(mins).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+
+                if (seconds % 60 === 0) {
+                    minutes++;
+                    updateLeaderboard();
+                }
+
+            }
+
+        }, 1000);
+
+        function updateLeaderboard() {
+            let table = document.getElementById("leaderboard");
+            table.innerHTML = `
+<tr>
+<th>Slno.</th>
+<th>Minutes</th>
+<th>seconds</th>
+<th>Delete</th>
+</tr>
+`;
+
+            users.forEach((u, i) => {
+
+                table.innerHTML += `
+<tr>
+<td>${i + 1}</td>
+<td>${u.minutes}</td>
+<td>${u.seconds % 60}</td>
+<td><button id="del" onclick="deleteRow(this,${i})">&#128465</button></td>
+</tr>
+`;
+
+            });
+
+        }
+        function deleteRow(button, index) {
+            const ask = confirm("Do you want to delete?");
+            if (ask) {
+                button.closest("tr").remove();
+                users.splice(index, 1);
+                updateLeaderboard();
+            }
+        }
+
+
+        const notice = document.getElementById("notice");
+
+        let startX = 0, startY = 0;
+        let currentX = 0, currentY = 0;
+        let dragging = false;
+
+        notice.addEventListener("pointerdown", (e) => {
+            dragging = true;
+            startX = e.clientX - currentX;
+            startY = e.clientY - currentY;
+
+            notice.classList.add("dragging");
+            notice.setPointerCapture(e.pointerId);
+        });
+
+        notice.addEventListener("pointermove", (e) => {
+            if (!dragging) return;
+
+            currentX = e.clientX - startX;
+            currentY = e.clientY - startY;
+
+            notice.style.transform =
+                ` translate(${currentX}px, ${currentY}px)`;
+        });
+
+        notice.addEventListener("pointerup", () => {
+            if (!dragging) return;
+            dragging = false;
+
+            notice.classList.remove("dragging");
+
+            if (Math.abs(currentX) > 100 || Math.abs(currentY) > 70) {
+                notice.classList.add("removing");
+
+                const directionX = Math.sign(currentX);
+                const directionY = Math.sign(currentY);
+
+                notice.style.transform =
+                    `translate(${directionX * (window.innerWidth + notice.offsetWidth)}px,
+                  ${directionY * (window.innerHeight + notice.offsetHeight)}px)`;
+
+                notice.addEventListener("transitionend", () => {
+                    notice.remove();
+                }, { once: true });
+            } else {
+                currentX = 0;
+                currentY = 0;
+                notice.style.transform = "";
+            }
+        });
+
+        notice.addEventListener("pointercancel", () => {
+            dragging = false;
+            currentX = currentY = 0;
+            notice.classList.remove("dragging");
+            notice.style.transform = "";
+        });
+        const ball = document.getElementById("ball");
+        document.getElementById("ms").classList.add("float");
+        document.getElementById("email").addEventListener("mouseover", function () {
+            ball.classList.add("moveeye");
+            document.getElementById("mm").classList.add("movemouth");
+        });
+        document.getElementById("email").addEventListener("mouseout", function () {
+            ball.classList.remove("moveeye");
+            document.getElementById("mm").classList.remove("movemouth");
+        });
+        document.getElementById("email").addEventListener("click", function (e) {
+            e.stopPropagation();
+            document.getElementById("ms").classList.remove("god");
+            void document.getElementById("ms").offsetwidth;
+            document.getElementById("ms").classList.add("god");
+
+            setTimeout(() => {
+                document.getElementById("ms").textContent = "Email!";
+            }, 500);
+        });
+    </script>
+
+</body>
+
+</html>

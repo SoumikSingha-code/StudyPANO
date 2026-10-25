@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quizotoria</title>
+<style>
+    :root {
+        --bg: #0a0a0f;
+        --surface: #13131a;
+        --border: #1e1e2e;
+        --accent: #7c3aed;
+        --accent2: #06b6d4;
+        --green: #10b981;
+        --red: #ef4444;
+        --yellow: #f59e0b;
+        --text: #e2e8f0;
+        --muted: #64748b;
+        --glow: 0 0 40px rgba(124, 58, 237, 0.12);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Space Grotesk', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 40px;
+        border: none;
+        font-family: inherit;
+        font-size: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s;
+        white-space: nowrap;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--accent), #5b21b6);
+        color: white;
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(124, 58, 237, 0.4);
+    }
+
+    .btn-danger {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--red);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .btn-danger:hover {
+        background: rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-warning {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--yellow);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-warning:hover {
+        background: rgba(245, 158, 11, 0.2);
+    }
+
+    .btn-ghost {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.09);
+    }
+
+    h1 {
+        font-size: clamp(26px, 5vw, 40px);
+        font-weight: 700;
+        line-height: 1.15;
+        background: linear-gradient(135deg, #fff 30%, var(--accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+        text-align: center;
+        margin-bottom: 40px;
+        width: 100%;
+        padding: 50px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 30px;
+    }
+
+    body::-webkit-scrollbar {
+        width: 0px;
+        z-index: 10000;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: none;
+        border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background: none;
+        border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+        background: none;
+    }
+
+    #b1,
+    #b2,
+    #b3,
+    #b4,
+    #b5,
+    #b6,
+    #b7,
+    #b8,
+    #b9,
+    #b0 {
+        position: fixed;
+        inset: 0;
+        background: #1e1e2e;
+        z-index: 00;
+        transform: translateX(-100%);
+        opacity: 0;
+        overflow: scroll;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 50px;
+    }
+
+    #b1::-webkit-scrollbar {
+        width: 0px;
+    }
+
+    #rev {
+        background: none;
+        border: none;
+        font-size: 25px;
+        color: var(--muted);
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        transition: color 0.2s;
+        user-select: none;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    #rev:hover {
+        color: var(--text);
+    }
+
+    #ctnt {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 140px;
+        font-size: 20px;
+    }
+
+    input[type="radio"] {
+        cursor: pointer;
+        accent-color: #5b21b6;
+        margin: 10px;
+    }
+
+    .btcn {
+        position: relative;
+        top: 200px;
+        z-index: 0;
+    }
+
+    .sbt {
+        padding: 10px;
+        border-radius: 10px;
+        width: 40%;
+
+    }
+
+    .sbt:hover {
+        box-shadow: 0 10 10 0 #6f29df;
+    }
+
+    .bct {
+        position: relative;
+        bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .result {
+        background: fixed;
+        position: fixed;
+        inset: 0;
+        background-color: #1e1e2e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(100%);
+        opacity: 0;
+        overflow: scroll;
+    }
+
+    .result::-webkit-scrollbar {
+        width: 0px;
+    }
+
+    #box {
+        width: 90%;
+        height: 450px;
+        background: #4a2e77;
+        border-radius: 20px;
+        box-shadow: 0px 0px 60px #7833e7;
+        padding: 30px;
+        font-size: medium;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .res {
+        padding: 0px;
+        position: relative;
+        top: 0px;
+        height: auto;
+    }
+
+    #revr {
+        background: none;
+        border: none;
+        font-size: 25px;
+        color: var(--muted);
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        transition: color 0.2s;
+        user-select: none;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        overflow: hidden;
+    }
+
+    #revr:hover {
+        color: var(--text);
+    }
+
+    #ok {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1.5px solid white;
+        position: absolute;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 000000;
+    }
+
+    .Ok {
+        background: white;
+    }
+
+    #msg {
+        width: auto;
+        min-width: 450px;
+        height: 50px;
+        color: white;
+        position: fixed;
+        top: 0px;
+        border: none;
+        z-index: 99999999999999999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .msgc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .resinc {
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (min-width:765px) {
+
+        #ctnt {
+            font-size: 80px;
+        }
+
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .sbt {
+            font-size: 30px;
+
+        }
+
+        .resinc {
+            width: 70%;
+            font-size: 20px;
+        }
+    }
+
+    @media (min-width:1025px) {
+
+        #ctnt {
+            font-size: 50px;
+        }
+
+        .sbt {
+            font-size: 30px;
+        }
+
+        .resinc {
+            width: 60%;
+            font-size: 35px;
+        }
+    }
+</style>
+
+<body>
+    <div class="msgc">
+        <div id="msg"></div>
+    </div>
+    <div class="ct"></div>
+    <h1>Choose subject to quiz</h1>
+    <br>
+    <br><br><br>
+    <div class=" btcn">
+        <button class="btn btn-primary" id="bt" onclick="chp('lit')">
+            <h3>Literature</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+        <br><br>
+        <button class="btn btn-primary" id="bt" onclick="chp('M')">
+            <h3>Maths</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+        <br><br>
+        <button class="btn btn-primary" id="bt" onclick="chp('B')">
+            <h3>Biology</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+        <br><br>
+        <button class="btn btn-primary" id="bt" onclick="chp('P')">
+            <h3>physics</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+        <br><br>
+        <button class="btn btn-primary" id="bt" onclick="chp('C')">
+            <h3>Chemistry</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+        <br><br>
+        <button class="btn btn-primary" id="bt" onclick="chp('H')">
+            <h3>History</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+        <br><br>
+        <button class="btn btn-primary" id="bt" onclick="chp('G')">
+            <h3>Geography</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+        <br><br>
+        <button class="btn btn-primary" id="bt" onclick="chp('Co')">
+            <h3>Computer</h3><span id="ok" onclick="toggle()"></span>
+        </button>
+
+    </div>
+    <br><br>
+    <br><br><br><br><br><br>
+    </div>
+    <div id="b1">
+        <button id="rev">×</button>
+        <h1>Quizotoria</h1>
+        <br><br>
+        <div id="ctnt">
+            <div>
+                1) What does Antony describe as, thou bleeding piece of earth?
+                <br><br>
+                <input type="radio" value="a" name="q1"> (a) Caersar's robe that was stained with his blood.<br>
+                <input type="radio" value="b" name="q1"> (b) The blood-soaked spot on which Caesar lies.<br>
+                <input type="radio" value="c" name="q1"> (c) The bloodied pedestal on which Caesar fell.<br>
+                <input type="radio" value="d" name="q1"> (d) Caesar's lifeless covered with blood.<br><br>
+            </div>
+            <div>
+                2) After Antony's speech following Caesar's assassination, the angry mob kills?
+                <br><br>
+                <input type="radio" value="a" name="q2"> (a) Cinna the conspirator.<br>
+                <input type="radio" value="b" name="q2"> (b) Cinna the poet.<br>
+                <input type="radio" value="c" name="q2"> (c) Decius Brutus.<br>
+                <input type="radio" value="d" name="q2"> (d) Cicero.<br><br>
+            </div>
+            <div>
+                3) When Antony says,'He must be taught, and train'd, and bid go forth: Abarren-spirited fellow;' he
+                refers to ?
+                <br><br>
+                <input type="radio" value="a" name="q3"> (a) Octavious.<br>
+                <input type="radio" value="b" name="q3"> (b) Lucilius.<br>
+                <input type="radio" value="c" name="q3"> (c) Lucius.<br>
+                <input type="radio" value="d" name="q3"> (d) Lepidus.<br><br>
+            </div>
+            <div>
+                4) In the poem 'Hunted House', what does the speaker see at his fireside that the stranger cannot?
+                <br><br>
+                <input type="radio" value="a" name="q4"> (a) the speaker only sees what is physically present.<br>
+                <input type="radio" value="b" name="q4"> (b) the stranger can see the spirits while the speaker
+                cannot.<br>
+                <input type="radio" value="c" name="q4"> (c) the speaker see both the present and past.<br>
+                <input type="radio" value="d" name="q4"> (d) the stranger sees both the present and future.<br><br>
+            </div>
+            <div>
+                5)In the poem,'The golves and the lion' who does Count de Lorge 'sigh for?
+                <br><br>
+                <input type="radio" value="a" name="q5"> (a) The lion that ramped and roared.<br>
+                <input type="radio" value="b" name="q5"> (b) King francis who loved national sports.<br>
+                <input type="radio" value="c" name="q5"> (c) The nobles who filled the benches.<br>
+                <input type="radio" value="d" name="q5"> (d) The beateous lively dame.
+            </div>
+            <br><br>
+            <div>
+                6) The poem, A considerable Speck, express Froast's?
+                <br><br>
+                <input type="radio" value="a" name="q6"> (a) love for the little organism.<br>
+                <input type="radio" value="b" name="q6"> (b) respect for intellegent life.<br>
+                <input type="radio" value="c" name="q6"> (c) indifference to the tiny creature.<br>
+                <input type="radio" value="d" name="q6"> (d) anger at the mite's escape.<br><br>
+            </div>
+            <div>
+                7) Where was Adjoa born?
+                <br><br>
+                <input type="radio" value="a" name="q7"> (a) Nigeria.<br>
+                <input type="radio" value="b" name="q7"> (b) Ghanna.<br>
+                <input type="radio" value="c" name="q7"> (c) Ethiopia.<br>
+                <input type="radio" value="d" name="q7"> (d) Kenya.<br><br>
+            </div>
+            <div>
+                8) Why did M. Hamel have to leave the school after forty year of service?
+                <br><br>
+                <input type="radio" value="a" name="q8"> (a) He was not allowed to teach French any more.<br>
+                <input type="radio" value="b" name="q8"> (b) He had grown tired of his job as a schoolteacher.<br>
+                <input type="radio" value="c" name="q8"> (c) He was thought to be too strict in his ways.<br>
+                <input type="radio" value="d" name="q8"> (d) He wanted to retire and take up farming.
+            </div>
+            <br><br>
+            <div>
+                9) What does Antony describe as, thou bleeding piece of earth?
+                <br><br>
+                <input type="radio" value="a" name="q9"> (a) Caersar's robe that was stained with his blood.<br>
+                <input type="radio" value="b" name="q9"> (b) The blood-soaked spot on which Caesar lies.<br>
+                <input type="radio" value="c" name="q9"> (c) The bloodied pedestal on which Caesar fell.<br>
+                <input type="radio" value="d" name="q9"> (d) Caesar's lifeless covered with blood.<br><br>
+            </div>
+            <div>
+                10) In the story,'The Elevator' which of the following does Martin's father <b>NOT</b> do when Martin
+                expresses his fear of the elevator?
+                <br><br>
+                <input type="radio" value="a" name="q10"> (a) He dismisses Martin's concerns.<br>
+                <input type="radio" value="b" name="q10"> (b) He encourages Martin to use the stairs.<br>
+                <input type="radio" value="c" name="q10"> (c) He tells Martin to grow up and brave.<br>
+                <input type="radio" value="d" name="q10"> (d) He watches TV and ignores Martin's fear.<br><br>
+            </div>
+            <div class="bct">
+                <button class="btn btn-primary sbt" type="submit" onclick="checkQuiz()"> Sumbit🛸</button>
+            </div>
+
+        </div>
+
+
+
+
+        <br><br>
+
+    </div>
+    <div class="result" id="Result">
+        <button id="revr">×</button>
+        <div id="box">
+            <h1 class="res">Result
+                <br>🎊CONGRATS🎊
+            </h1>
+            <div class="resinc">
+                <p id="ann"></p>
+                <p id="crrt"></p>
+                <p id="wrg"></p>
+                <p id="noatm"></p>
+                <p id="feed"></p>
+                <p id="wrqs"></p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function showMessage(text, bgColor, duration = 2000) {
+        msg.style.display = "flex";
+        msg.innerText = text;
+        msg.style.background = bgColor;
+        setTimeout(() => {
+            msg.style.display = "none";
+        }, duration);
+    }
+
+    const cll = document.querySelectorAll("#ok").forEach((cll) => {
+        cll.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            cll.classList.toggle("Ok");
+            if (cll.classList.contains("Ok")) {
+                cll.innerHTML = "&#10003";
+                showMessage("QUIZ Completed", "green");
+                localStorage.setItem("done", true);
+            }
+            else {
+                cll.innerHTML = "";
+                localStorage.setItem("done", false);
+            }
+            cll.style.color = "black";
+        });
+    });
+    if (localStorage.getItem("done") === true) {
+        cll.classList.add("Ok");
+
+    }
+    const answer = {
+        q1: "d",
+        q2: "b",
+        q3: "d",
+        q4: "c",
+        q5: "d",
+        q6: "b",
+        q7: "b",
+        q8: "a",
+        q9: "d",
+        q10: "b"
+    }
+    function checkQuiz() {
+        document.getElementById("Result").style.transform = " translateX(0px)";
+        document.getElementById("Result").style.transition = " 0.9s ease";
+        document.getElementById("Result").style.opacity = "1";
+        let score = 0;
+        let noatm = 0;
+        let wrgqs = "";
+        for (const qs in answer) {
+            const selected = document.querySelector(
+                `input[name="${qs}"]:checked`)
+            if (selected && selected.value === answer[qs]) {
+                score++;
+            }
+            else {
+                if (selected) {
+                    if (answer.length === 10) {
+                        wrgqs = wrgqs + qs;
+                    }
+                    else if (answer.length != 10) {
+                        wrgqs = wrgqs + qs + ",";
+                    }
+                    else {
+                        alert("reached")
+                        wrgqs = "0";
+                    }
+                }
+            }
+            if (!selected) {
+                noatm++;
+            }
+
+        }
+        let feed = "";
+        if (score * 2 >= 18) {
+            feed = "Excelent";
+
+        }
+        else if (score * 2 < 18 && score * 2 >= 14) {
+            feed = "Good";
+
+        }
+        else if (score * 2 < 14 && score * 2 >= 10) {
+            feed = "Better";
+
+        }
+        else {
+            feed = "Can do better"
+        }
+        document.getElementById("ann").innerText = `Your score:  ${score * 2}`;
+        document.getElementById("crrt").innerText = `Number of correct Question:  ${score}`;
+        document.getElementById("wrg").innerText = `Number of Wrong Question:  ${10 - score - noatm}`;
+        document.getElementById("feed").innerText = `Feedback:  ${feed}`;
+        document.getElementById("noatm").innerText = `Number of unattempted:  ${noatm}`;
+        document.getElementById("wrqs").innerText = `Question done wrong :  ${wrgqs}`;
+    }
+    const block = document.getElementById("b1");
+
+    document.getElementById("rev").addEventListener("click", function () {
+        document.getElementById("b1").style.transform = " translateX(-100%)";
+        document.getElementById("b1").style.transition = " 0.4s ease";
+        document.getElementById("b1").style.opacity = "0";
+    })
+    document.getElementById("revr").addEventListener("click", function () {
+        document.getElementById("Result").style.transform = " translateX(100%)";
+        document.getElementById("Result").style.transition = " 0.9s ease";
+        document.getElementById("Result").style.opacity = "0";
+    })
+    function chp(str) {
+        if (str == 'lit') {
+
+        }
+        document.getElementById("bt").addEventListener("click", function () {
+            document.getElementById("b1").style.transform = " translateX(0px)";
+            document.getElementById("b1").style.transition = " 0.4s ease";
+            document.getElementById("b1").style.opacity = "1";
+        })
+    }
+
+</script>
