@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>StudyPANO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         html,
         body {
@@ -372,6 +371,7 @@
             height: 40px;
             border-radius: 50%;
             background: none;
+            color: white;
             position: relative;
             top: 40px;
             display: flex;
@@ -1099,6 +1099,16 @@
             }
         }
 
+        .nwct {
+            width: 100%;
+            height: auto;
+            background: none;
+            gap: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         @media (min-width:765px) {
             .panel {
                 color: white;
@@ -1448,7 +1458,7 @@
         }
 
         #promode:hover svg {
-            transform: rotate(-30deg);
+            transform: rotate(-45deg);
         }
     </style>
 
@@ -1568,6 +1578,19 @@
     <div id="body">
         <div class="container">
             <div id="txt">
+                <div class="hhd">
+                    <h1>Want to Quiz or Test</h1>
+                </div><br><br><br>
+                <div class="btn">
+                    <button class="quiz" onclick="pgc('quiz.html')">Quiz</button>
+                    <button class="test" id="testup" onclick="showMessage('No test available','red')">Tests</button>
+                </div>
+                <br><br>
+                <div class="btn">
+                    <button class="Topper" id="" onclick="pgc('Toppers.html')">Toppers Arena</button>
+                    <button onclick="pgc('flashcards.html')">Flash cards</button>
+
+                </div>
                 <div class="hhd">
                     <H1>How To Make Notes?</H1>
                 </div>
