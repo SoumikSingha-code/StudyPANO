@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: none;
+        }
+
+        body::-webkit-scrollbar {
+            width: 9px;
+            z-index: 10000;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #64748b;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .progress-circle1,
+        .progress-circle2,
+        .progress-circle3,
+        .progress-circle4,
+        .progress-circle5,
+        .progress-circle6,
+        .progress-circle7,
+        .progress-circle8,
+        .progress-circle9,
+        .progress-circle10,
+        .progress-circle11 {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            margin: 20px;
+            background: conic-gradient(#4f8cff 0%, #e0e0e0 0%);
+            box-shadow: 0 0 15px rgba(79, 140, 255, 0.4);
+            transition: transform 0.2s;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        .progress-circle1:hover,
+        .progress-circle2:hover,
+        .progress-circle3:hover,
+        .progress-circle4:hover,
+        .progress-circle5:hover,
+        .progress-circle6:hover,
+        .progress-circle7:hover,
+        .progress-circle8:hover,
+        .progress-circle9:hover,
+        .progress-circle10:hover,
+        .progress-circle11:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(79, 140, 255, 0.6);
+        }
+
+        .inner-circle {
+            width: 100px;
+            height: 100px;
+            background-color: #0f172a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .m {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .circle-fill {
+            background: conic-gradient(from 0deg, #6c63ff 0%, #a390ff 100%);
+        }
+
+        .head {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            text-align: center;
+            color: #fff;
+            font-weight: bolder;
+            width: 100%;
+            height: 115px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            position: sticky;
+            flex-direction: column;
+            z-index: 1000;
+            top: 0px;
+            backdrop-filter: blur(100px);
+        }
+
+        .line {
+            width: 100%;
+            border: 2px solid #334155;
+            position: relative;
+            top: 25px;
+        }
+
+        .tms {
+            font-size: 35px;
+            width: 100%;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            text-align: center;
+        }
+
+        @media (min-width:765px) {
+            .head {
+                font-size: 40px;
+            }
+
+            .line {
+
+                top: 11px;
+            }
+        }
+
+        @media (min-width:1205px) {
+            .head {
+                font-size: 50px;
+            }
+
+            .line {
+
+                top: 0px;
+            }
+        }
+    </style>
+    <title>Progress Board</title>
+</head>
+
+<body>
+    <h1 class="head">Today,s Progress Board<br><br>
+        <div class="line"></div>
+    </h1>
+
+    <br><br>
+    <div class="m">
+        <h1>Math</h1>
+        <div class="progress-circle1" id="circle1">
+            <div class="inner-circle">
+                <span id="percentage1"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Physics</h1>
+        <div class="progress-circle2" id="circle2">
+            <div class="inner-circle">
+                <span id="percentage2"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Chemistry</h1>
+        <div class="progress-circle3" id="circle3">
+            <div class="inner-circle">
+                <span id="percentage3"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Biology</h1>
+        <div class="progress-circle4" id="circle4">
+            <div class="inner-circle">
+                <span id="percentage4"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>History</h1>
+        <div class="progress-circle5 " id="circle5">
+            <div class="inner-circle">
+                <span id="percentage5"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Geography</h1>
+        <div class="progress-circle6" id="circle6">
+            <div class="inner-circle">
+                <span id="percentage6"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Hindi</h1>
+        <div class="progress-circle7" id="circle7">
+            <div class="inner-circle">
+                <span id="percentage7"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Computer</h1>
+        <div class="progress-circle8" id="circle8">
+            <div class="inner-circle">
+                <span id="percentage8"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Literature</h1>
+        <div class="progress-circle9" id="circle9">
+            <div class="inner-circle">
+                <span id="percentage9"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="m">
+        <h1>Language</h1>
+        <div class="progress-circle10" id="circle10">
+            <div class="inner-circle">
+                <span id="percentage10"></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="tms"> Total Time spent by you : <span id="timespent"></span>
+    </div>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem("studySessions")) || {};
+        const today = new Date().toISOString().split("T")[0];
+        let todayDate = data[today] || {}
+        let time;
+        for (let key in todayDate) {
+            time = todayDate[key]
+            console.log("Subject : ", key);
+            console.log("time : ", time);
+        }
+        let mathtime = todayDate["Mathn"] || 0;
+        let physicstime = todayDate["Physicsn"] || 0;
+        let chemistrytime = todayDate["Chemistryn"] || 0;
+        let biologytime = todayDate["Biologyn"] || 0;
+        let historytime = todayDate["Historyn"] || 0;
+        let geographytime = todayDate["Geographyn"] || 0;
+        let hinditime = todayDate["Hindin"] || 0;
+        let computertime = todayDate["Computern"] || 0;
+        let literaturetime = todayDate["Literaturen"] || 0;
+        let languagetime = todayDate["Languagen"] || 0;
+        const tms = document.getElementById("timespent");
+        const ins = localStorage.getItem("activetime");
+        let totals = Math.floor(ins / 1000);
+        let min = Math.floor(totals / 60);
+        tms.innerHTML = min + " minutes " + totals + " seconds ";
+        function animateProgress(circleId, spanId, targetPercent) {
+            const circle = document.getElementById(circleId);
+            const span = document.getElementById(spanId);
+            let current = 0;
+
+            function update() {
+                if (current > targetPercent) return;
+
+                // Update text
+                span.innerText = current + "%";
+
+                // Get color based on current percentage
+                let color = getColorByPercent(current);
+
+                // Update circle gradient
+                circle.style.background = `conic-gradient(${color} 0% ${current}%, #e0e0e0 ${current}% 100%)`;
+
+                current++;
+                requestAnimationFrame(update);
+            }
+
+            update();
+        }
+        function getColorByPercent(percent) {
+            if (percent <= 30) return '#a0c4ff';   // light blue → less
+            if (percent <= 60) return '#4f8cff';   // medium blue → medium
+            return '#264de4';                      // dark blue → more
+        }
+
+        // Example usage:
+        let mp = ((mathtime / ins) * 100);
+        animateProgress('circle1', 'percentage1', mp);
+        let pp = ((physicstime / ins) * 100);
+        animateProgress('circle2', 'percentage2', pp);
+        let cp = ((chemistrytime / ins) * 100);
+        animateProgress('circle3', 'percentage3', cp);
+        let bp = ((biologytime / ins) * 100);
+        animateProgress('circle4', 'percentage4', bp);
+        let hp = ((historytime / ins) * 100);
+        animateProgress('circle5', 'percentage5', hp);
+        let gp = ((geographytime / ins) * 100);
+        animateProgress('circle6', 'percentage6', gp);
+        let hip = ((hinditime / ins) * 100);
+        animateProgress('circle7', 'percentage7', hip);
+        let cop = ((computertime / ins) * 100);
+        animateProgress('circle8', 'percentage8', cop);
+        let lip = ((literaturetime / ins) * 100);
+        animateProgress('circle9', 'percentage9', lip);
+        let lp = ((languagetime / ins) * 100);
+        animateProgress('circle10', 'percentage10', lp);
+    </script>
+
+</body>
+
+</html>
