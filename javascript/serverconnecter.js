@@ -76,7 +76,7 @@ async function uploadFile() {
     formData.append("uid", currentUserUID);
     formData.append("filename", filename);
     formData.append("subject", pagename);
-    const response = await fetch("http://localhost:3000/upload", {
+    const response = await fetch("https://studypano-backend-2.onrender.com/upload", {
         method: "POST",
         body: formData
 
